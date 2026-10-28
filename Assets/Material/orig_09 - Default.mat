@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: orig_09 - Default
+  m_Shader: {fileID: 4800000, guid: 3b334be6f81033e4db183a65d12e50dc, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _Emissive:
+        m_Texture: {fileID: 2800000, guid: bbe4f8ab568ee3f4989bacfb4c179179, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: 678d931f23911bc4f8d796d4e12136e8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _SpecTex:
+        m_Texture: {fileID: 2800000, guid: 2da4956813010264990e77468c868ee3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+      _Attenuation: 1
+      _LightMap: 0.4
+      _LightPower: 0.9
+      _Shininess: 1
+      _SpecularPower: 5.02
+    m_Colors:
+      _Color: {r: 0.68235296, g: 0.5058824, b: 0.72156864, a: 1}
+      _SpecColor: {r: 0.9607843, g: 0.52156866, b: 0.13333334, a: 1}

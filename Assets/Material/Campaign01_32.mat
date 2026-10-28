@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Campaign01_32
+  m_Shader: {fileID: 4800000, guid: 9de811c799fa31d47a922a2a2e302917, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _2DReflect:
+        m_Texture: {fileID: 2800000, guid: b33b9de8c285b3f4483a485d58214b3e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emissive:
+        m_Texture: {fileID: 2800000, guid: a96dace7bed0b3d449c867c02f4b4db7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 2e3befc40bb614f47a695dc68e592b26, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionAlpha:
+        m_Texture: {fileID: 2800000, guid: 2e3befc40bb614f47a695dc68e592b26, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecTex:
+        m_Texture: {fileID: 2800000, guid: c0968ab85259b7c488f76c59504d4fad, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Attenuation: 1
+    - _Bias: 5
+    - _BlinkingTimeOffsScale: 5
+    - _ColorOffset: 1
+    - _DetailNormalMulti: 1
+    - _FadeOutDistFar: 1000
+    - _FadeOutDistNear: 1000
+    - _GlossPower: 0
+    - _LightMap: 0.4
+    - _LightPower: 6.17
+    - _MaxGrowSize: 2.5
+    - _Multiplier: 5
+    - _NoiseAmount: 0
+    - _Param1: 0.6
+    - _Param2: 0.07
+    - _ReflectionPower: 0.53
+    - _Shininess: 1
+    - _SizeGrowEndDist: 50
+    - _SizeGrowStartDist: 5
+    - _SpecRange: 0
+    - _SpecularPower: 14.11
+    - _TimeOffDuration: 0
+    - _TimeOnDuration: 5
+    - _UVDetailNormalTile: 1
+    m_Colors:
+    - _Color: {r: 1, g: 0.71602434, b: 0.58823526, a: 1}
+    - _EyeDir: {r: 0, g: 0, b: 0, a: 0}
+    - _LightDir: {r: 0, g: 17.2, b: 0, a: 0}
+    - _ScrollingSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 1, g: 0.78306293, b: 0.31617647, a: 1}
+    - _SpecOffset: {r: 1, g: 10, b: 2, a: 0}

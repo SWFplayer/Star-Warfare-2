@@ -1,0 +1,17 @@
+public enum MissionActionType
+{
+	NONE = 0,
+	ACT_CAMERA = 1,
+	ACT_VFX = 2,
+	ACT_OBJECT = 3,
+	ACT_PICKUP = 4,
+	ACT_SPAWN = 5,
+	ACT_SPAWN_PARAM = 6,
+	ACT_DIALOG = 7,
+	ACT_BOSS = 8,
+	ACT_DESTROY = 9,
+	ACT_VEHICLE = 10,
+	ACT_ROUTEENEMY = 11,
+	ACT_RADAR = 12,
+	NUM = 13
+}

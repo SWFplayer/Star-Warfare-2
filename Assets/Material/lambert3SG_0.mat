@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: lambert3SG_0
+  m_Shader: {fileID: 4800000, guid: 5cc6828491c815f49a3f46b5bfac977c, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _RGBA:
+        m_Texture: {fileID: 2800000, guid: 7c30aaa81f4d3df4ba4665a1232bfce4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _lightTex:
+        m_Texture: {fileID: 2800000, guid: 93498ff15043eec458839ae6b567d8d2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _normalmap:
+        m_Texture: {fileID: 2800000, guid: e6086dee58b92a240b26951aab8b8cbc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _specTex_Gloss:
+        m_Texture: {fileID: 2800000, guid: 7c30aaa81f4d3df4ba4665a1232bfce4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _lightRate: 0.5
+    - _shininess: 0.984127
+    - _specMultiple: 1
+    - _useCustomColor: 0
+    m_Colors:
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
+    - _maincolor: {r: 1, g: 1, b: 1, a: 1}
+    - _paintColor: {r: 1, g: 0, b: 0, a: 1}
+    - _specColor: {r: 0.3254902, g: 0.5254902, b: 0.627451, a: 1}

@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Campaign01_33
+  m_Shader: {fileID: 4800000, guid: a49fa5e12acd5c842afea4a5a7772516, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: 8520a3cce705b2441bbd3eb65187ffb8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _SpecTex:
+        m_Texture: {fileID: 2800000, guid: a0716706f5bf71b479c79dd7b754359d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+      _Attenuation: 1
+      _Bias: 0.1
+      _BlinkingTimeOffsScale: 5
+      _ColorOffset: 0.7
+      _DetailNormalMulti: 1
+      _FadeOutDistFar: 1000
+      _FadeOutDistNear: 0
+      _GlossPower: 0
+      _LightMap: 0.4
+      _LightPower: 1.88
+      _MaxGrowSize: 2.5
+      _Multiplier: 1
+      _NoiseAmount: 0
+      _Shininess: 0.030000003
+      _SizeGrowEndDist: 50
+      _SizeGrowStartDist: 5
+      _SpecRange: 0
+      _SpecularPower: 2.21
+      _TimeOffDuration: 0.5
+      _TimeOnDuration: 0.5
+      _UVDetailNormalTile: 1
+    m_Colors:
+      _Color: {r: 0.8392157, g: 0.80784315, b: 0.8392157, a: 1}
+      _EyeDir: {r: 0, g: 0, b: 0, a: 0}
+      _LightDir: {r: 0.4, g: 0, b: 1.57, a: 0}
+      _ScrollingSpeed: {r: 0, g: 0, b: 0, a: 0}
+      _SpecColor: {r: 0.8897059, g: 0.7641004, b: 0.57569206, a: 1}
+      _SpecOffset: {r: 1, g: 10, b: 2, a: 0}

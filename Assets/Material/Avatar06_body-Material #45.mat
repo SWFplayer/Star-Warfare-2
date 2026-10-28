@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 'Avatar06_body-Material #45'
+  m_Shader: {fileID: 4800000, guid: a9521fba96d4f4c4ea2e464f6235ac48, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Cube:
+        m_Texture: {fileID: 8900000, guid: 0634272d1148c094a8f6ab18537b40f0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RGBA:
+        m_Texture: {fileID: 2800000, guid: 3b0851f5350b7e84f9eeedf978391200, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _lightTex:
+        m_Texture: {fileID: 2800000, guid: 97beded7f8a93b449bb2a8392fd15fe1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _normalmap:
+        m_Texture: {fileID: 2800000, guid: 3b132c4b1e10778479445027d35a6be3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _lightRate: 0.5
+    - _seXiang: 0
+    - _shininess: 0.984127
+    - _specMultiple: 1
+    - _useCustomColor: 0
+    m_Colors:
+    - _Color: {r: 0.588, g: 0.588, b: 0.588, a: 1}
+    - _CubeColor: {r: 0.30882353, g: 0.30882353, b: 0.30882353, a: 1}
+    - _paintColor: {r: 1, g: 0, b: 0, a: 1}
+    - _seXiang_vector1: {r: 0, g: 0, b: 0, a: 0}
+    - _seXiang_vector2: {r: 0, g: 0, b: 0, a: 0}
+    - _specColor: {r: 0.28676468, g: 0.58681536, b: 1, a: 1}

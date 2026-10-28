@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: effect02
+  m_Shader: {fileID: 4800000, guid: a1969f27912087e42a674d5843530c58, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: 7a468995db2264a4a97c6f7a20a0c28c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _tex2:
+        m_Texture: {fileID: 2800000, guid: c148da13d6c2ef74c95187346efaf110, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+      _Bias: 5
+      _BlinkingTimeOffsScale: 5
+      _ColorOffset: 1
+      _FadeOutDistFar: 1000
+      _FadeOutDistNear: 0
+      _MaxGrowSize: 2.5
+      _Multiplier: 5
+      _NoiseAmount: 0
+      _Shininess: 0.078125
+      _SizeGrowEndDist: 50
+      _SizeGrowStartDist: 5
+      _SpecRange: 20
+      _TimeOffDuration: 0
+      _TimeOnDuration: 5
+    m_Colors:
+      _Color: {r: 0.588, g: 0.588, b: 0.588, a: 1}
+      _ScrollingSpeed: {r: 0, g: 0, b: 0, a: 0}
+      _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+      _SpecOffset: {r: 1, g: 10, b: 2, a: 0}

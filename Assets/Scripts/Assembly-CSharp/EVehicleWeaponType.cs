@@ -1,0 +1,7 @@
+public enum EVehicleWeaponType
+{
+	ATV_MINI_ASSAULT_RIFLE = 0,
+	ATV_MINI_RPG = 1,
+	ATV_MINI_SAW = 2,
+	UNCC_TURRET_MACHINE_GUN = 3
+}

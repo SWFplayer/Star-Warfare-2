@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 16 - Default
+  m_Shader: {fileID: 4800000, guid: d82620d075450234bb2bc2cb93c09012, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: 6fbdbee5a3a4e1d459f2eb458146ef1e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTexB:
+        m_Texture: {fileID: 2800000, guid: ed1a8d0616bc61f4499745211b6d0a2a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MaskMap:
+        m_Texture: {fileID: 2800000, guid: 0f3d03741a3edc64c8bf77e982f953ff, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+      _Attenuation: 1
+      _BlendRate: 0
+      _DetailNormalMulti: 1
+      _DetailNormalMultiB: 1
+      _GlossPower: 1.2
+      _LightMap: 0.4
+      _LightPowerOfB: 1.2
+      _OriginColorPower: 0.77
+      _ReflectionPower: 0.10714286
+      _Shininess: 1
+      _SpecularPower: 22
+      _UVDetailNormalTile: 1
+      _UVDetailNormalTileB: 1
+    m_Colors:
+      _Color: {r: 0.5735294, g: 0.97694755, b: 1, a: 1}
+      _LightDir: {r: 4, g: 3.77, b: 0, a: 0}
+      _LightDirB: {r: 0, g: 0, b: 0, a: 0}
+      _SpecColor: {r: 0.06839316, g: 0.34879488, b: 0.4044118, a: 1}

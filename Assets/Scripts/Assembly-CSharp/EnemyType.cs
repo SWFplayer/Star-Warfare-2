@@ -1,0 +1,19 @@
+public enum EnemyType
+{
+	NA = -1,
+	DRONE = 0,
+	STALKER = 1,
+	SCORPION = 2,
+	BANELING = 3,
+	TANK = 4,
+	MYTH370 = 5,
+	BIGBEE = 6,
+	DEMSTER = 7,
+	SPECIAL_SLASHER = 8,
+	SLASHER = 9,
+	DEAD_EYE = 10,
+	FROST_STONE = 11,
+	CERBERLISK = 12,
+	CRIMSON_QUEEN = 13,
+	NUM = 14
+}

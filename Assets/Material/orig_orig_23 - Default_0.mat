@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: orig_orig_23 - Default_0
+  m_Shader: {fileID: 4800000, guid: 9de811c799fa31d47a922a2a2e302917, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _2DReflect:
+        m_Texture: {fileID: 2800000, guid: 66122f660cd45e942b0f61d5a4635b65, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emissive:
+        m_Texture: {fileID: 2800000, guid: 820866c412ca7164980d9750ff480cac, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: fd805f7e6e8b44549a85e79277427e2d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionAlpha:
+        m_Texture: {fileID: 2800000, guid: fd805f7e6e8b44549a85e79277427e2d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecTex:
+        m_Texture: {fileID: 2800000, guid: 5bf4ca2e8bc016e4da0c76096d04f7f0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Attenuation: 1
+    - _GlossPower: 1
+    - _LightMap: 0.4
+    - _LightPower: 1.74
+    - _Param1: 0.6
+    - _Param2: 0.04
+    - _ReflectionPower: 0.66
+    - _Shininess: 1
+    - _SpecularPower: 3.97
+    m_Colors:
+    - _Color: {r: 0.598724, g: 0.69537497, b: 0.7205882, a: 1}
+    - _LightDir: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 1, g: 0.637931, b: 0.25, a: 1}

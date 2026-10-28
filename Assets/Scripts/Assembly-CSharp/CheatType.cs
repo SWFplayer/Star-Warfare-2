@@ -1,0 +1,10 @@
+public enum CheatType
+{
+	WEAPON_SPEED_RATE = 0,
+	PLAYER_SPEED = 1,
+	BOMB_RANGE = 2,
+	SHOT_GUN_RANGE = 3,
+	BULLET_COUNT = 4,
+	BULLET_SPEED = 5,
+	TYPE_COUNT = 6
+}

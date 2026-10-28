@@ -1,0 +1,14 @@
+public enum EChangeColorType
+{
+	NONE = 0,
+	CONSTANT_COLOR = 1,
+	GOLDEN = 2,
+	WHITE = 3,
+	BLACK = 4,
+	APPLE_GREEN = 5,
+	CYSTAL_PINK = 6,
+	RED_CHANGE = 7,
+	PURPLE_CHANGE = 8,
+	BLUE_CHANGE = 9,
+	GREEN_CHANGE = 10
+}

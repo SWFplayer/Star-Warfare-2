@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: water02
+  m_Shader: {fileID: 4800000, guid: e3dfda0c8fafd794fa8d6546c726f9f3, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _2DReflect:
+        m_Texture: {fileID: 2800000, guid: 21daae2f16d8cce4aa3e634a32b7e40d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _Emissive:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: 599d1e6ee02347f4b8036152d308b75e, type: 3}
+        m_Scale: {x: 12, y: 12}
+        m_Offset: {x: 0, y: 0}
+      _SpecTex:
+        m_Texture: {fileID: 2800000, guid: f1ec3953cf8b4a14cba2d502679b3ce5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+      _Attenuation: 1
+      _DetailNormalMulti: 1
+      _GlossPower: 0
+      _LightMap: 0.7
+      _LightPower: 0.59
+      _Param1: 0.02
+      _Param2: 0.07
+      _ReflectionPower: 1.07
+      _Shininess: 1
+      _SpecularPower: 0.24
+      _UVDetailNormalTile: 1
+    m_Colors:
+      _Color: {r: 0.38884082, g: 0.785998, b: 0.9117647, a: 1}
+      _EyeDir: {r: 0, g: 0, b: 0, a: 0}
+      _LightDir: {r: 0, g: 0.56, b: 0, a: 0}
+      _SpecColor: {r: 1, g: 0.88793105, b: 0.52205884, a: 1}

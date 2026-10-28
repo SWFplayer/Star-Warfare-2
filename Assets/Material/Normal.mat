@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Normal
+  m_Shader: {fileID: 4800000, guid: d4aeed5cd59a1e54e83bcbd461cf761a, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 6e12bd5eebc22df4d9f2a25dc7fbf8c0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: b18e47554b8ed8a4696aa0c83fe9eaf4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _lightTex:
+        m_Texture: {fileID: 2800000, guid: 5a750f391026e424b8255a01e2357b5a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+      _Shininess: 0.4049233
+      _SpecMulti: 1
+      _lightRate: 1
+    m_Colors:
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _SpecColor: {r: 1, g: 1, b: 1, a: 1}

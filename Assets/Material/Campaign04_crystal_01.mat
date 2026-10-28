@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Campaign04_crystal_01
+  m_Shader: {fileID: 4800000, guid: 9de811c799fa31d47a922a2a2e302917, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _2DReflect:
+        m_Texture: {fileID: 2800000, guid: d2382ad8bcd0c9747aa07e97a7e8a406, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _Emissive:
+        m_Texture: {fileID: 2800000, guid: b872231cc68e84c47a63ca6af54c998f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: b83733649383dfd4bac796a8eeed8a3a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _ReflectionAlpha:
+        m_Texture: {fileID: 2800000, guid: 9ab9eeca99a7cdf4db8b65b85d62049e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _SpecTex:
+        m_Texture: {fileID: 2800000, guid: edab3d2d3e5181c47895f1502f4418d9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+      _Attenuation: 1
+      _GlossPower: 0
+      _LightMap: 0.4
+      _LightPower: 1.3
+      _Param1: 0.5
+      _Param2: 0.07
+      _ReflectionPower: 1.05
+      _Shininess: 1
+      _SpecularPower: 2.3
+    m_Colors:
+      _Color: {r: 0.7941176, g: 0.56826955, b: 0.4612889, a: 1}
+      _LightDir: {r: 0, g: 0.93, b: 0, a: 0}
+      _SpecColor: {r: 0.99215686, g: 0.6862745, b: 0.3647059, a: 1}

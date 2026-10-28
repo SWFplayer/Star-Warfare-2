@@ -1,0 +1,6 @@
+public enum ELoginType
+{
+	SUCCESS_ACCOUNT = 0,
+	SUCCESS_ANONYMOUS = 1,
+	SUCCESS_BIND = 2
+}

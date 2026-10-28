@@ -1,0 +1,12 @@
+public enum EVehicleType
+{
+	NA = -1,
+	UNCC_TURRET = 0,
+	RPG_TURRET = 1,
+	ATV_MINI = 2,
+	ATV_LASER = 3,
+	UNCC_TURRET_FOR_MISSION = 4,
+	LONG_SWORD = 5,
+	LONG_SWORD_CANNON = 6,
+	NUM = 7
+}

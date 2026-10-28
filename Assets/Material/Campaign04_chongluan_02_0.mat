@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Campaign04_chongluan_02_0
+  m_Shader: {fileID: 4800000, guid: 3b334be6f81033e4db183a65d12e50dc, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Emissive:
+        m_Texture: {fileID: 2800000, guid: 801923524596f524e9609465b4c83455, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: be064830dd8577e4b9f3fcb76e06cc09, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecTex:
+        m_Texture: {fileID: 2800000, guid: 0d3344a407f9efc42afe6b8f0f54064c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Attenuation: 1
+    - _LightMap: 0.4
+    - _LightPower: 2.56
+    - _Shininess: 1
+    - _SpecularPower: 2.14
+    m_Colors:
+    - _Color: {r: 0.97794116, g: 0.99452335, b: 1, a: 1}
+    - _LightDir: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 0.60294116, g: 0.3936851, b: 0.07980104, a: 1}

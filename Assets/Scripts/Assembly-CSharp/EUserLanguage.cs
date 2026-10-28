@@ -1,0 +1,13 @@
+public enum EUserLanguage
+{
+	DEFAULT = 0,
+	ENGLISH = 1,
+	CHINESE_SIMPLIFIED = 2,
+	FRENCH = 3,
+	GERMAN = 4,
+	SPANISH = 5,
+	CHINESE_TRADITIONAL = 6,
+	KOREAN = 7,
+	JAPANESE = 8,
+	RUSSIAN = 9
+}

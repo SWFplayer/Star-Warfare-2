@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: campaign05_tunnel
+  m_Shader: {fileID: 4800000, guid: 3b334be6f81033e4db183a65d12e50dc, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _Emissive:
+        m_Texture: {fileID: 2800000, guid: 125788cd09c6e1941b70e2d90ca43f69, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: e3a37be246900fb4298083025e94bd8f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _SpecTex:
+        m_Texture: {fileID: 2800000, guid: dde88ccbc2826424faccae33ed41626d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+      _Attenuation: 1
+      _LightMap: 0.5
+      _LightPower: 1.55
+      _Shininess: 1
+      _SpecularPower: 3.65
+    m_Colors:
+      _Color: {r: 0.9191176, g: 0.7252267, b: 0.70285463, a: 1}
+      _SpecColor: {r: 0.9338235, g: 0.57014376, b: 0.10986158, a: 1}

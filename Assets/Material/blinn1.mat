@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: blinn1
+  m_Shader: {fileID: 4800000, guid: 5cc6828491c815f49a3f46b5bfac977c, type: 3}
+  m_ShaderKeywords:
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _RGBA:
+        m_Texture: {fileID: 2800000, guid: f7b56bb60805eeb4f9cc73fb76aee6c6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _lightTex:
+        m_Texture: {fileID: 2800000, guid: 211a8eb8e81538344bf6006d42401eed, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _normalmap:
+        m_Texture: {fileID: 2800000, guid: 49577131711540c4da7be096595051f2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _specTex_Gloss:
+        m_Texture: {fileID: 2800000, guid: f7b56bb60805eeb4f9cc73fb76aee6c6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+      _Attenuation: 0.5
+      _DetailNormalMulti: 1
+      _GlossPower: 1
+      _LightMap: 0.4
+      _Shininess: 1
+      _SpecularPower: 1
+      _UVDetailNormalTile: 1
+      _lightRate: 0.44642857
+      _shininess: 0.984127
+      _specMultiple: 1
+      _useCustomColor: 0
+    m_Colors:
+      _Color: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
+      _EyeDir: {r: 0, g: 0, b: 0, a: 0}
+      _LightDir: {r: 0, g: 0, b: 0, a: 0}
+      _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+      _maincolor: {r: 1, g: 1, b: 1, a: 1}
+      _paintColor: {r: 1, g: 0, b: 0, a: 1}
+      _specColor: {r: 1, g: 0.9874239, b: 0.5441177, a: 1}
