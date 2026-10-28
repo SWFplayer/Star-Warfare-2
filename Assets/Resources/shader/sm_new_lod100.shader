@@ -1,85 +1,86 @@
 Shader "StarWarfare/Middle/SNDM_new_LOD100" {
 	Properties{
-		_maincolor("Main Color", Color) = (1,1,1,1)
 		_RGBA("Base(RGB)Trans(A)", 2D) = "white" {}
+		_specColor("Specular Color", Color) = (0,0,0,1)
 		_lightTex("Light Texture", 2D) = "black" {}
 		_lightRate("Light Rate", Range(0,1)) = 0.5
 		_specMultiple("Specular Multiple", Float) = 1
 		_shininess("Shininess", Range(0,1)) = 0.984127
+		_normalmap("Normalmap", 2D) = "bump" {}
 		_paintColor("Paint Color", Color) = (1,0,0,1)
 		_useCustomColor("Use Custom Color (bool)", Range(0,1)) = 0
+
+		_CubeColor("Reflection Color", Color) = (0,0,0,1)
 	}
 
 		SubShader{
-			Tags { "RenderType" = "Opaque" }
+			LOD 100
+			Tags { "IGNOREPROJECTOR" = "False" "RenderType" = "Opaque" }
 
-			Pass {
-				Tags { "LightMode" = "ForwardBase" }
+			CGPROGRAM
+			#pragma surface surf SNDMLight fullforwardshadows
+			#pragma target 3.0
+			#pragma multi_compile_fog
 
-				Lighting On
-				Fog { Mode Off }
+			sampler2D _RGBA;
+			sampler2D _lightTex;
+			sampler2D _normalmap;
 
-				CGPROGRAM
-				#pragma vertex vert
-				#pragma fragment frag
-				#pragma multi_compile_fwdbase
-				#include "UnityCG.cginc"
-				#include "Lighting.cginc"
+			fixed4 _specColor;
+			fixed  _lightRate;
+			fixed  _specMultiple;
+			fixed  _shininess;
+			fixed4 _paintColor;
+			fixed  _useCustomColor;
+			samplerCUBE _Cube;
+			fixed4 _CubeColor;
 
-				struct appdata {
-					float4 vertex : POSITION;
-					float3 normal : NORMAL;
-					float2 uv : TEXCOORD0;
-				};
+			struct Input {
+				float2 uv_RGBA;
+				float3 worldRefl;
+				INTERNAL_DATA
+			};
 
-				struct v2f {
-					float4 pos : SV_POSITION;
-					float2 uv : TEXCOORD0;
-					float3 lightColor : TEXCOORD1;
-				};
+			void surf(Input IN, inout SurfaceOutput o) {
+				fixed4 baseTex = tex2D(_RGBA, IN.uv_RGBA);
+				fixed4 lightTex = tex2D(_lightTex, IN.uv_RGBA);
+				fixed4 normTex = tex2D(_normalmap, IN.uv_RGBA);
 
-				sampler2D _RGBA;
-				sampler2D _lightTex;
-				float _lightRate;
+				fixed4 lightAdd = lightTex * _lightRate;
 
-				v2f vert(appdata v) {
-					v2f o;
-					o.pos = UnityObjectToClipPos(v.vertex);
-					o.uv = v.uv;
+				fixed mask = normTex.a * _useCustomColor;
+				fixed4 combined = lightAdd + (baseTex * (1.0 - mask)) + (_paintColor * mask);
 
-					float3 viewPos = mul(UNITY_MATRIX_MV, v.vertex).xyz;
-					
-					float3 viewNormal = normalize(mul((float3x3)UNITY_MATRIX_IT_MV, v.normal));
+				fixed4 refl = texCUBE(_Cube, IN.worldRefl);
+				fixed3 reflContrib = (refl.rgb * lightTex.a) * _CubeColor.rgb;
 
-					float3 lightColor = UNITY_LIGHTMODEL_AMBIENT.xyz;
+				fixed3 n = UnpackNormal(normTex);
 
-					for (int i = 0; i < 4; i++) {
-						float3 lightDir = _WorldSpaceLightPos0.xyz - (viewPos * _WorldSpaceLightPos0.w);
-						
-						float distSq = dot(lightDir, lightDir);
-						float atten = 1.0 / (1.0 + distSq * unity_LightAtten[i].z);
-
-						float NdotL = max(0.0, dot(viewNormal, normalize(lightDir)));
-						lightColor += unity_LightColor[i].xyz * (NdotL * atten);
-					}
-
-					o.lightColor = lightColor * 2.0;
-
-					return o;
-				}
-
-				fixed4 frag(v2f i) : SV_Target {
-					fixed4 baseTex = tex2D(_RGBA, i.uv);
-					fixed4 lightTex = tex2D(_lightTex, i.uv);
-
-					fixed4 c = baseTex + (lightTex * _lightRate);
-
-					fixed3 resultRGB = c.xyz * i.lightColor;
-
-					return fixed4(resultRGB, c.w);
-				}
-				ENDCG
+				o.Albedo = combined.rgb + reflContrib;
+				o.Normal = n;
+				o.Specular = 1.0;
+				o.Gloss = _shininess;
+				o.Alpha = 1.0;
 			}
+
+			inline fixed4 LightingSNDMLight(SurfaceOutput s, fixed3 lightDir, fixed3 viewDir, fixed atten) {
+				fixed3 h = normalize(lightDir + viewDir);
+				fixed3 n = normalize(s.Normal);
+				fixed3 l = normalize(lightDir);
+
+				fixed ndl = max(0.0, dot(l, n));
+				fixed nh = max(0.0, dot(n, h));
+
+				fixed lum = dot(_LightColor0.rgb, fixed3(0.22, 0.707, 0.071));
+
+				fixed4 specCol = _specColor * _specMultiple;
+				fixed spec = pow(nh, _shininess * 128.0) * lum;
+
+				fixed3 lighting = _LightColor0.rgb * ndl;
+				fixed3 c = (s.Albedo * lighting + lighting * (spec * specCol.rgb)) * 2.0;
+				return fixed4(c, s.Alpha);
+			}
+			ENDCG
 		}
 
 			Fallback "Mobile/Diffuse"

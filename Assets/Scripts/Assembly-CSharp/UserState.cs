@@ -1700,7 +1700,7 @@ public class UserState
 
 	public int GetCompensateExp()
 	{
-		return 900000000;
+		return AntiCracking.DecryptBufferStr(mCompensateExp, "jia_jingyan");
 	}
 
 	public void SetCompensateExp(int _exp)
