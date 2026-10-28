@@ -42,23 +42,18 @@ Shader "StarWarfare/SNDM_new_cube" {
 			};
 
 			void surf(Input IN, inout SurfaceOutput o) {
-				// Base albedo
 				fixed4 baseTex = tex2D(_RGBA, IN.uv_RGBA);
 				fixed4 lightTex = tex2D(_lightTex, IN.uv_RGBA);
 				fixed4 normTex = tex2D(_normalmap, IN.uv_RGBA);
 
-				// Light texture add
 				fixed4 lightAdd = lightTex * _lightRate;
 
-				// Paint color mask from normal map alpha
 				fixed mask = normTex.a * _useCustomColor;
 				fixed4 combined = lightAdd + (baseTex * (1.0 - mask)) + (_paintColor * mask);
 
-				// Cubemap reflection, modulated by light texture alpha and cube color
 				fixed4 refl = texCUBE(_Cube, IN.worldRefl);
 				fixed3 reflContrib = (refl.rgb * lightTex.a) * _CubeColor.rgb;
 
-				// Normal decode (tangent space)
 				fixed3 n = UnpackNormal(normTex);
 
 				o.Albedo = combined.rgb + reflContrib;
@@ -76,16 +71,13 @@ Shader "StarWarfare/SNDM_new_cube" {
 				fixed ndl = max(0.0, dot(l, n));
 				fixed nh = max(0.0, dot(n, h));
 
-				// Luminance-weighted specular
 				fixed lum = dot(_LightColor0.rgb, fixed3(0.22, 0.707, 0.071));
 
 				fixed4 specCol = _specColor * _specMultiple;
 				fixed spec = pow(nh, _shininess * 128.0) * lum;
 
 				fixed3 lighting = _LightColor0.rgb * ndl;
-				// Original: (albedo * light + light * (spec * specColor)) * 2
 				fixed3 c = (s.Albedo * lighting + lighting * (spec * specCol.rgb)) * 2.0;
-				// Also apply SH ambient — surface shaders do this automatically.
 				return fixed4(c, s.Alpha);
 			}
 			ENDCG

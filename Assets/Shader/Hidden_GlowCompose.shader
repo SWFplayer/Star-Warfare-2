@@ -12,7 +12,7 @@ Shader "Hidden/GlowCompose"
 		ZWrite Off
 		Cull Off
 		Fog { Mode Off }
-		Blend One One // Additive blending
+		Blend One One   
 
 		Pass
 		{
@@ -47,7 +47,6 @@ Shader "Hidden/GlowCompose"
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				// Sample the glow texture, multiply by Color, and boost by 2.0
 				return (2.0 * _Color) * tex2D(_MainTex, i.uv);
 			}
 			ENDCG

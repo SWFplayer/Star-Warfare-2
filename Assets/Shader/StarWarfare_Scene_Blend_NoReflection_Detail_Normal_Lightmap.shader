@@ -39,9 +39,6 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap" {
 		  sampler2D _SpecTex;
 		  sampler2D _SpecTexB;
 		  sampler2D _MaskMap;
-		  // sampler2D unity_Lightmap;
-		  // float4 unity_LightmapST;
-
 		  float _Shininess;
 		  float _LightMap;
 		  float4 _Color;
@@ -97,7 +94,6 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap" {
 			  half3 fixedLightDir = float3(0.57735, 0.57735, 0.57735);
 
 			  #if LIGHTMAP_ON
-			  // Lightmap active logic
 			  half4 lightMap = half4(2.0 * UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uvLightmap).xyz, 0.0);
 			  half3 lm = lightMap.xyz * _LightMap;
 			  half3 shadow = min(lm, (_Attenuation * 2.0) * 0.8);
@@ -112,7 +108,6 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap" {
 			  half3 specB_term = (((specB * shadow) * _SpecularPower)) * _SpecColor.xyz;
 			  colB = diffB + specB_term;
 		  #else
-			  // Standard / Lightmap off logic
 			  half3 shadow = _Attenuation * 2.0;
 			  half3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 			  half NdotL = max(0.0, dot(fixedLightDir, _LightDir));

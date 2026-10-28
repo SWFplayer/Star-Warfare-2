@@ -25,24 +25,18 @@ Shader "StarWarfare/Middle/Scene/Specular_Lightmap" {
 			};
 
 			void surf(Input IN, inout SurfaceOutput o) {
-				// Sample the main texture
 				o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
 				o.Alpha = 1.0;
 			}
 
-			// Custom Lighting Function
 			inline fixed4 LightingCustomSpecularLightmap(SurfaceOutput s, fixed3 lightDir, half3 viewDir, fixed atten) {
-				// The GLSL uses _LightPower directly as the NdotL value
 				half NdotL = _LightPower;
 
-				// Shadow is the attenuation multiplied by 2
 				half3 shadow = _Attenuation * 2.0;
 				half3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
 
-				// Diffuse light calculation: mix((shadow * NdotL), (ambient + 1.0), ambient)
 				half3 diffLight = lerp(shadow * NdotL, ambient + 1.0, ambient);
 
-				// Final color: (Albedo * diffLight) * _Color
 				fixed3 color = (s.Albedo * diffLight) * _Color.rgb;
 
 				fixed4 c;

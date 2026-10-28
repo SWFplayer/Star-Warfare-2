@@ -46,26 +46,15 @@ Shader "WFX/Scroll/Smoke" {
 				}
 
 				fixed4 frag(v2f i) : SV_Target {
-					// 1. Unscrolled alpha mask
 					fixed mask = tex2D(_MainTex, i.uv).a * i.color.a;
 
-				// 2. Scrolling offset (fmod with sign preservation)
-				//    The bytecode computes _Time * _ScrollSpeed, takes fract(abs(...)),
-				//    then restores the sign. For _ScrollSpeed >= 0 this is
-				//    just fract(_Time.x * _ScrollSpeed).
 				float scroll = frac(_Time.x * _ScrollSpeed);
-				// If negative scroll speed is possible, use a signed fmod.
-				// For the default positive speed, the simple frac is exact.
-
-				// 3. Sample the scrolled UV
 				float2 scrolledUV = float2(i.uv.x, i.uv.y - scroll);
 
-				// 4. RGB from scrolled sample, tinted by vertex color and material tint
 				fixed4 tex;
 				tex.rgb = tex2D(_MainTex, scrolledUV).rgb * (i.color.rgb * _TintColor.rgb);
 				tex.a = mask;
 
-				// 5. Blend with mid-gray constant using the mask
 				tex = lerp(fixed4(0.5, 0.5, 0.5, 0.5), tex, mask);
 
 				return tex;

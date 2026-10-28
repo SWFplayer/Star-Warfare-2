@@ -57,16 +57,13 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap_Combine2" {
 				fixed4 reflectTex = tex2D(_2DReflect, IN.reflectionUV);
 				fixed4 specTex = tex2D(_SpecTex, IN.uv_MainTex);
 
-				// Combine2: Reflection alpha is now the Y (Green) channel of _SpecTex
 				fixed3 reflection = (reflectTex.rgb * _ReflectionPower) * specTex.g;
 
 				o.Albedo = mainTex.rgb + reflection;
 				o.Albedo *= _Color.rgb;
 
-				// Specular uses the X (Red) channel of _SpecTex
 				o.Specular = specTex.r;
 
-				// Emissive is added at the end
 				o.Emission = tex2D(_Emissive, IN.uv_MainTex).rgb;
 				o.Alpha = 1.0;
 			}

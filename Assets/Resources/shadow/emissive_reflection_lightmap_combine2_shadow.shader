@@ -1,7 +1,3 @@
-// Upgrade NOTE: commented out 'float4 unity_LightmapST', a built-in variable
-// Upgrade NOTE: commented out 'sampler2D unity_Lightmap', a built-in variable
-// Upgrade NOTE: replaced tex2D unity_Lightmap with UNITY_SAMPLE_TEX2D
-
 Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap_Combine2_Shadow"
 {
 	Properties
@@ -42,7 +38,6 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap_Combine2_Shadow"
 				#pragma fragment frag
 				#pragma target 3.0
 
-			// Match the original variant keywords
 			#pragma multi_compile LIGHTMAP_OFF LIGHTMAP_ON
 			#pragma multi_compile DIRLIGHTMAP_OFF DIRLIGHTMAP_ON
 			#pragma multi_compile SHADOWS_OFF SHADOWS_SCREEN SHADOWS_NATIVE
@@ -56,9 +51,6 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap_Combine2_Shadow"
 			sampler2D _Emissive;
 			sampler2D _2DReflect;
 			sampler2D _ShadowMap;
-			// sampler2D unity_Lightmap;
-			// float4 unity_LightmapST;
-
 			float4 _Color;
 			float4 _SpecColor;
 			float4 _ShadowColor;
@@ -96,16 +88,12 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap_Combine2_Shadow"
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
 
-				// Original: uv = uv * _MainTex_ST.xy + _MainTex_ST.zw
 				o.uv = v.uv * _MainTex_ST.xy + _MainTex_ST.zw;
 
-				// Lightmap UV
 				o.uvLM = v.uvLM * unity_LightmapST.xy + unity_LightmapST.zw;
 
-				// Projected shadow coordinate
 				o.shadowCoord = mul(_LocalToShadowMatrix, v.vertex);
 
-				// Fake 2D Screen-Space Reflection
 				float3 worldSpace = mul(unity_ObjectToWorld, v.vertex).xyz;
 				float3 reflectUV = (worldSpace - (_WorldSpaceCameraPos * _Param1)) * _Param2;
 				o.uvReflect = reflectUV.xy;
@@ -113,12 +101,10 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap_Combine2_Shadow"
 				return o;
 			}
 
-			// Projected shadow: returns the sampled darkness weight (0..1)
 			float SampleProjectedShadow(float4 shadowCoord)
 			{
 				float2 uv = (shadowCoord.xy / shadowCoord.w) * 0.5 + 0.5;
 
-				// Box mask: isVisible = max(sign(0.5 - max(|uv-0.5|)), 0)
 				float2 d = abs(uv - 0.5);
 				float isVisible = max(sign(0.5 - max(d.x, d.y)), 0.0);
 
@@ -128,24 +114,18 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap_Combine2_Shadow"
 
 			float4 frag(v2f i) : SV_Target
 			{
-				// ----- Textures -----
 				float4 mainTex = tex2D(_MainTex, i.uv);
 				float4 specTex = tex2D(_SpecTex, i.uv);
 				float3 reflectTex = tex2D(_2DReflect, i.uvReflect).xyz;
 				float3 emissiveTex = tex2D(_Emissive, i.uv).xyz;
 
-				// ----- Combine Diffuse with Reflection -----
-				// Original: (mainTex.xyz + (reflectTex.xyz * _ReflectionPower) * specTex.y)
 				float3 baseDiffuse = mainTex.xyz + (reflectTex * _ReflectionPower * specTex.y);
 
-				// ----- Shadow (projected) -----
 				float shadowVis = SampleProjectedShadow(i.shadowCoord);
 
-				// ----- Lighting -----
 				float3 resultColor;
 
 				#ifdef LIGHTMAP_ON
-				// Lightmap path
 				float4 lm4 = UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uvLM);
 				float3 lm = (2.0 * lm4.xyz) * _LightMap;
 				float3 shadow3 = min(lm, float3(_Attenuation * 2.0, _Attenuation * 2.0, _Attenuation * 2.0) * 0.8);
@@ -154,9 +134,8 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap_Combine2_Shadow"
 				float3 spec = (specTex.x * shadow3) * _SpecularPower * _SpecColor.xyz;
 				resultColor = diff + spec;
 			#else
-				// Ambient / non-lightmap path
 				float3 shadow3 = float3(_Attenuation * 2.0, _Attenuation * 2.0, _Attenuation * 2.0);
-				float3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz; // glstate_lightmodel_ambient
+				float3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;  
 				float3 mixed = lerp(shadow3 * _LightPower, ambient + 1.0, ambient);
 
 				float3 diff = baseDiffuse * mixed * _Color.xyz;
@@ -164,11 +143,9 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap_Combine2_Shadow"
 				resultColor = diff + spec;
 			#endif
 
-				// ----- Apply projected shadow as a blend toward _ShadowColor -----
 				float shadowW = shadowVis * _ShadowDarkness;
 				float3 outColor = resultColor * (1.0 - shadowW) + _ShadowColor.xyz * shadowW;
 
-				// ----- Add Emissive -----
 				outColor += emissiveTex;
 
 				return float4(outColor, 0.0);

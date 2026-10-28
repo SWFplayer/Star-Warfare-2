@@ -50,8 +50,6 @@ Shader "StarWarfare/Scene/EmissiveWithTrigger_Reflection_Lightmap"
 				sampler2D _2DReflect;
 
 				#ifdef LIGHTMAP_ON
-				// sampler2D unity_Lightmap;
-				// float4 unity_LightmapST;
 				float _LightMap;
 				#endif
 
@@ -91,7 +89,6 @@ Shader "StarWarfare/Scene/EmissiveWithTrigger_Reflection_Lightmap"
 					o.pos = UnityObjectToClipPos(v.vertex);
 					o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
-					// --- Fake 2D Reflection UV Math ---
 					float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 					float3 cameraOffset = (-_WorldSpaceCameraPos * _Param1) + worldPos;
 					o.reflectUV = (cameraOffset * _Param2).xy;
@@ -106,47 +103,36 @@ Shader "StarWarfare/Scene/EmissiveWithTrigger_Reflection_Lightmap"
 
 				fixed4 frag(v2f i) : SV_Target
 				{
-					// --- 1. Sample Textures ---
 					fixed4 mainTex = tex2D(_MainTex, i.uv);
 					fixed4 emissiveTex = tex2D(_Emissive, i.uv);
 					fixed4 reflectTex = tex2D(_2DReflect, i.reflectUV);
 					fixed4 reflectAlpha = tex2D(_ReflectionAlpha, i.uv);
 					fixed specMask = tex2D(_SpecTex, i.uv).x;
 
-					// Unpack Normal Map (DXT5nm format handled by Unity, but GLSL decompile shows standard unpack)
 					float3 normal = UnpackNormal(tex2D(_NormalTex, i.uv));
 
-					// --- 2. Lighting Math ---
 					fixed3 shadow = fixed3(_Attenuation * 2.0, _Attenuation * 2.0, _Attenuation * 2.0);
 
 					#ifdef LIGHTMAP_ON
-					// Custom Lightmap blending hack
 					fixed4 lmTex = UNITY_SAMPLE_TEX2D(unity_Lightmap, i.lmUV);
 					fixed3 lm = (2.0 * lmTex.xyz) * _LightMap;
 					shadow = min(lm, shadow * 0.8);
 
-					// Half-Lambert fake lighting when lightmap is on
 					fixed NdotL = max(0.0, dot(normal, _LightDir) * 0.5 + 1.0);
 				#else
-					// Standard Lambert lighting when no lightmap
 					fixed NdotL = max(0.0, dot(normal, _LightDir));
 				#endif
 
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
 
-				// Mix between shadow (NdotL) and ambient
 				fixed3 finalLight = lerp(shadow * NdotL, ambient + 1.0, ambient);
 
-				// --- 3. Combine ---
-				// Diffuse + Reflection, multiplied by lighting and tint color
 				fixed3 diffuse = (mainTex.rgb + (reflectTex.rgb * _ReflectionPower * reflectAlpha.x)) * finalLight * _Color.rgb;
 
-				// Add Specular
 				fixed3 spec = (specMask * shadow * _SpecularPower) * _SpecColor.rgb;
 
 				fixed3 result = diffuse + spec;
 
-				// Add Emissive
 				result += emissiveTex.rgb * _EmissivePower;
 
 				fixed4 finalColor = fixed4(result, 0.0);

@@ -1,9 +1,3 @@
-// Upgrade NOTE: replaced tex2D unity_Lightmap with UNITY_SAMPLE_TEX2D
-
-// Upgrade NOTE: commented out 'float4 unity_LightmapST', a built-in variable
-// Upgrade NOTE: commented out 'sampler2D unity_Lightmap', a built-in variable
-// Upgrade NOTE: replaced tex2D unity_Lightmap with UNITY_SAMPLE_TEX2D
-
 Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Combine3_Shadow"
 {
 	Properties
@@ -42,7 +36,6 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Combine3_Sha
 				#pragma fragment frag
 				#pragma target 3.0
 
-			// Match the original variant keywords
 			#pragma multi_compile LIGHTMAP_OFF LIGHTMAP_ON
 			#pragma multi_compile DIRLIGHTMAP_OFF DIRLIGHTMAP_ON
 			#pragma multi_compile SHADOWS_OFF SHADOWS_SCREEN SHADOWS_NATIVE
@@ -56,9 +49,6 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Combine3_Sha
 			float4 _MainTexB_ST;
 			sampler2D _MaskMap;
 			sampler2D _ShadowMap;
-			// sampler2D unity_Lightmap;
-			// float4 unity_LightmapST;
-
 			float4 _Color;
 			float4 _SpecColor;
 			float4 _ShadowColor;
@@ -89,7 +79,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Combine3_Sha
 				float2 uv          : TEXCOORD0;
 				float2 uvB         : TEXCOORD1;
 				float2 uvLM        : TEXCOORD2;
-				float2 uvMask      : TEXCOORD3; // from vertex color
+				float2 uvMask      : TEXCOORD3;    
 				float4 shadowCoord : TEXCOORD4;
 			};
 
@@ -98,23 +88,18 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Combine3_Sha
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
 
-				// Main and Material B UVs (separate tiling)
 				o.uv = v.uv * _MainTex_ST.xy + _MainTex_ST.zw;
 				o.uvB = v.uv * _MainTexB_ST.xy + _MainTexB_ST.zw;
 
-				// Lightmap UV
 				o.uvLM = v.uvLM * unity_LightmapST.xy + unity_LightmapST.zw;
 
-				// Mask Map UV from vertex color
 				o.uvMask = v.color.xy;
 
-				// Projected shadow coordinate
 				o.shadowCoord = mul(_LocalToShadowMatrix, v.vertex);
 
 				return o;
 			}
 
-			// Projected shadow helper
 			float SampleProjectedShadow(float4 shadowCoord)
 			{
 				float2 uv = (shadowCoord.xy / shadowCoord.w) * 0.5 + 0.5;
@@ -125,21 +110,17 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Combine3_Sha
 
 			float4 frag(v2f i) : SV_Target
 			{
-				// ----- Textures -----
 				float3 diffA = tex2D(_MainTex, i.uv).xyz;
 				float3 diffB = tex2D(_MainTexB, i.uvB).xyz;
 
-				// The MaskMap is sampled twice with different UVs:
-				// 1) Using i.uv to extract specular masks from its channels
 				float4 maskUV = tex2D(_MaskMap, i.uv);
-				float  specA = maskUV.y; // Y channel = Material A specular
-				float  specB = maskUV.z; // Z channel = Material B specular
+				float  specA = maskUV.y;       
+				float  specB = maskUV.z;       
 
 				float3 shadow3 = float3(_Attenuation * 2.0, _Attenuation * 2.0, _Attenuation * 2.0);
 				float3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 				float3 hardcodedNormal = float3(0.57735, 0.57735, 0.57735);
 
-				// ----- Material A Lighting -----
 				float3 resultA;
 				#ifdef LIGHTMAP_ON
 					float4 lm4 = UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uvLM);
@@ -158,7 +139,6 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Combine3_Sha
 					resultA = diffALit + specALit;
 				#endif
 
-					// ----- Material B Lighting -----
 					float3 resultB;
 					#ifdef LIGHTMAP_ON
 						float3 shadowLM_B = min((2.0 * UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uvLM).xyz) * _LightMap, shadow3 * 0.8);
@@ -172,11 +152,9 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Combine3_Sha
 						resultB = diffBLit + specBLit;
 					#endif
 
-						// ----- Blend Materials using vertex color UV -----
 						float blendMask = tex2D(_MaskMap, i.uvMask).x;
 						float3 outColor = lerp(resultB, resultA, blendMask);
 
-						// ----- Apply Projected Shadow (after blend) -----
 						float shadowVis = SampleProjectedShadow(i.shadowCoord);
 						float shadowW = shadowVis * _ShadowDarkness;
 						outColor = outColor * (1.0 - shadowW) + _ShadowColor.xyz * shadowW;

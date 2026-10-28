@@ -41,7 +41,7 @@ Shader "StarWarfare/Lightmap_Bright_Blink" {
 					float4 color : COLOR;
 					float3 normal : NORMAL;
 					float2 uv : TEXCOORD0;
-					float2 uv2 : TEXCOORD1; // Lightmap UVs
+					float2 uv2 : TEXCOORD1;   
 				};
 
 				struct v2f {
@@ -55,8 +55,6 @@ Shader "StarWarfare/Lightmap_Bright_Blink" {
 
 				sampler2D _MainTex;
 				sampler2D _tex2;
-				// sampler2D unity_Lightmap;
-
 				float4 _SpecOffset;
 				float _SpecRange;
 				float4 _SpecColor;
@@ -73,52 +71,39 @@ Shader "StarWarfare/Lightmap_Bright_Blink" {
 				float _NoiseAmount;
 				float4 _Color;
 
-				// float4 unity_LightmapST;
-
 				v2f vert(appdata v) {
 					v2f o;
 
-					// 1. Position and basic UVs
 					float4 mvPos = mul(UNITY_MATRIX_MV, v.vertex);
 					o.pos = mul(UNITY_MATRIX_P, mvPos);
 
-					// Scrolling UVs (only MainTex scrolls)
 					o.uv = v.uv + frac(_ScrollingSpeed.xy * _Time.y);
 					o.lmUV = v.uv2 * unity_LightmapST.xy + unity_LightmapST.zw;
 
-					// 2. Fake Specular Calculation
-					// Transform normal to view space
 					float3 viewNormal = normalize(mul((float3x3)UNITY_MATRIX_IT_MV, v.normal));
 
-					// Calculate the vector from the specular offset to the vertex (in view space)
 					float3 specOffsetView = _SpecOffset * float3(1, 1, -1);
 					float3 specVec = mvPos.xyz - specOffsetView;
 
-					// Calculate half vector
 					float3 viewDir = normalize(-specVec);
 					float3 halfVec = normalize(float3(0, 0, 1) + viewDir);
 
-					// NdotH and specular power
 					float NdotH = clamp(dot(viewNormal, halfVec), 0, 1);
 					float specPower = pow(NdotH, _Shininess * 128.0);
 
-					// Distance fade for specular
 					float dist = sqrt(dot(specVec, specVec));
 					float distFade = 1.0 - clamp(dist / _SpecRange, 0, 1);
 
 					o.specular = (_SpecColor.rgb * specPower * 2.0) * distFade;
 
-					// 3. Distance-based Fade
 					float viewDist = length(mvPos.xyz);
 					float nearFade = clamp(viewDist / _FadeOutDistNear, 0, 1);
 					float farFade = 1.0 - clamp(max(viewDist - _FadeOutDistFar, 0) * 0.2, 0, 1);
 
 					float fade = (nearFade * nearFade) * (farFade * farFade);
 
-					// 4. Blinking / Noise Calculation
 					float time = _Time.y + (_BlinkingTimeOffsScale * v.color.z);
 
-					// Pulse wave
 					float totalDuration = _TimeOnDuration + _TimeOffDuration;
 					float t = frac(abs(time / totalDuration)) * totalDuration;
 					if (time < 0) t = -t;
@@ -126,18 +111,15 @@ Shader "StarWarfare/Lightmap_Bright_Blink" {
 					float rise = clamp(t / (_TimeOnDuration * 0.25), 0, 1);
 					float fall = clamp((t - _TimeOnDuration * 0.75) / (_TimeOnDuration * 0.25), 0, 1);
 
-					// Smoothstep-like curves
 					float riseSmooth = rise * rise * (3.0 - 2.0 * rise);
 					float fallSmooth = fall * fall * (3.0 - 2.0 * fall);
 					float pulse = riseSmooth * (1.0 - fallSmooth);
 
-					// Noise wave
 					float noiseFreq = time * (6.28319 / _TimeOnDuration);
 					float noise = _NoiseAmount * (sin(noiseFreq) * (0.5 * cos(noiseFreq * 0.6366 + 56.7272) + 0.5)) + (1.0 - _NoiseAmount);
 
 					float blink = (_NoiseAmount < 0.01) ? pulse : noise;
 
-					// Final vertex color
 					o.color = ((fade * _Color) * _Multiplier) * (blink + _Bias);
 
 					UNITY_TRANSFER_FOG(o, o.pos);
@@ -146,27 +128,21 @@ Shader "StarWarfare/Lightmap_Bright_Blink" {
 				}
 
 				fixed4 frag(v2f i) : SV_Target {
-					// 1. Sample main texture
 					fixed4 mainTex = tex2D(_MainTex, i.uv);
 
-				// 2. Sample secondary texture
 				fixed4 tex2 = tex2D(_tex2, i.uv);
 
-				// 3. Combine main texture with fake specular (modulated by main texture alpha)
 				fixed3 color = mainTex.rgb + (i.specular * mainTex.a);
 
-				// 4. Apply lightmap
 				fixed3 lm = 2.0 * UNITY_SAMPLE_TEX2D(unity_Lightmap, i.lmUV).rgb;
 				color *= lm * _ColorOffset;
 
-				// 5. Add secondary texture (modulated by the vertex color)
 				color += (i.color.rgb * tex2.rgb);
 
 				fixed4 result = fixed4(color, mainTex.a);
 
 				UNITY_APPLY_FOG(i.fogCoord, result);
 
-				// 6. Output with main texture alpha
 				return result;
 			}
 			ENDCG

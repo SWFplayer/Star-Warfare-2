@@ -37,9 +37,6 @@ Shader "StarWarfare/Scene/Specular_Normal_Lightmap" {
 		  sampler2D _NormalTex;
 		  sampler2D _DetailNormal;
 		  sampler2D _SpecTex;
-		  // sampler2D unity_Lightmap;
-		  // float4 unity_LightmapST;
-
 		  float _Shininess;
 		  float _LightMap;
 		  float4 _Color;
@@ -85,7 +82,6 @@ Shader "StarWarfare/Scene/Specular_Normal_Lightmap" {
 			  half3 tex = tex2D(_MainTex, i.uv0).xyz;
 			  half specTex = tex2D(_SpecTex, i.uv0).r;
 
-			  // Combining Normal Map and Detail Normal Map
 			  half3 normal = tex2D(_NormalTex, i.uv0).xyz * 2.0 - 1.0;
 			  half2 detailUV = i.uv0 * _UVDetailNormalTile;
 			  half3 detailNormal = tex2D(_DetailNormal, detailUV).xyz * 2.0 - 1.0;
@@ -95,7 +91,6 @@ Shader "StarWarfare/Scene/Specular_Normal_Lightmap" {
 			  half3 col = 0;
 
 			  #if LIGHTMAP_ON
-			  // Lightmap active logic
 			  half4 lightMap = half4(2.0 * UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uv1).xyz, 0.0);
 			  half3 lm = lightMap.xyz * _LightMap;
 			  half3 shadow = min(lm, (_Attenuation * 2.0) * 0.8);
@@ -106,7 +101,6 @@ Shader "StarWarfare/Scene/Specular_Normal_Lightmap" {
 
 			  col = diff + spec;
 		  #else
-			  // Standard / Lightmap off logic
 			  half3 shadow = _Attenuation * 2.0;
 			  half3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 			  half NdotL = max(0.0, dot(normal, _LightDir));

@@ -30,9 +30,6 @@ Shader "StarWarfare/Scene/Specular_Lightmap" {
 		  sampler2D _MainTex;
 		  float4 _MainTex_ST;
 		  sampler2D _SpecTex;
-		  // sampler2D unity_Lightmap;
-		  // float4 unity_LightmapST;
-
 		  float _Shininess;
 		  float _LightMap;
 		  float4 _Color;
@@ -77,7 +74,6 @@ Shader "StarWarfare/Scene/Specular_Lightmap" {
 			  half3 col = 0;
 
 			  #if LIGHTMAP_ON
-			  // Lightmap active logic
 			  half4 lightMap = half4(2.0 * UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uv1).xyz, 0.0);
 			  half3 lm = lightMap.xyz * _LightMap;
 			  half3 shadow = min(lm, (_Attenuation * 2.0) * 0.8);
@@ -86,11 +82,9 @@ Shader "StarWarfare/Scene/Specular_Lightmap" {
 			  half3 spec = (((specTex * shadow) * _SpecularPower)) * _SpecColor.xyz;
 			  col = diff + spec;
 		  #else
-			  // Standard / Lightmap off logic
 			  half3 shadow = _Attenuation * 2.0;
 			  half3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 
-			  // Replicating the original GLSL mix function: mix(x, y, a) -> lerp(x, y, a)
 			  half3 lightTerm = lerp((shadow * _LightPower), (ambient + 1.0), ambient);
 			  half3 diff = (tex * lightTerm) * _Color.xyz;
 			  half3 spec = (((specTex * shadow) * _SpecularPower)) * _SpecColor.xyz;

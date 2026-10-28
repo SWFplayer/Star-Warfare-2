@@ -32,8 +32,6 @@ Shader "StarWarfare/Middle/Scene/Specular_Lightmap_LOD100"
 				fixed4 _Color;
 
 				#ifdef LIGHTMAP_ON
-				// sampler2D unity_Lightmap;
-				// float4 unity_LightmapST;
 				float _LightMap;
 				#endif
 

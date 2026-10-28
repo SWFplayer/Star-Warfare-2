@@ -73,13 +73,10 @@ Shader "WFX/Scroll/Alpha Blended" {
 					color.a *= clamp(_InvFade * depthDelta, 0.0, 1.0);
 					#endif
 
-					// Alpha from unscrolled UV
 					float alpha = color.a * tex2D(_MainTex, i.uv).a;
 
-					// Scroll offset — same pattern as Smoke, using _Time.x
 					float scroll = frac(_Time.x * _ScrollSpeed);
 
-					// RGB from scrolled UV (negative Y scroll = upward motion)
 					float2 scrolledUV = float2(i.uv.x, i.uv.y - scroll);
 					fixed3 rgb = color.rgb * tex2D(_MainTex, scrolledUV).rgb;
 

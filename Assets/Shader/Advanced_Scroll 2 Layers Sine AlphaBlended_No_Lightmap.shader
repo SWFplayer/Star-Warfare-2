@@ -43,7 +43,7 @@ Shader "Advanced/Scroll 2 Layers Sine AlphaBlended_No_Lightmap" {
 
 				struct v2f {
 					float4 pos : SV_POSITION;
-					float4 uv : TEXCOORD0; // xy = MainTex, zw = DetailTex
+					float4 uv : TEXCOORD0;       
 					fixed4 color : COLOR;
 				};
 
@@ -73,27 +73,23 @@ Shader "Advanced/Scroll 2 Layers Sine AlphaBlended_No_Lightmap" {
 					v2f o;
 					o.pos = UnityObjectToClipPos(v.vertex);
 
-					// 1. Calculate base UVs with scroll
 					float2 scroll1 = float2(_ScrollX, _ScrollY);
 					float2 scroll2 = float2(_Scroll2X, _Scroll2Y);
 
 					o.uv.xy = TRANSFORM_TEX(v.uv, _MainTex) + frac(scroll1 * _Time.xy);
 					o.uv.zw = TRANSFORM_TEX(v.uv, _DetailTex) + frac(scroll2 * _Time.xy);
 
-					// 2. Apply sine wave distortion
 					o.uv.x += sin(_Time.x * _SineFreqX) * _SineAmplX;
 					o.uv.y += sin(_Time.x * _SineFreqY) * _SineAmplY;
 					o.uv.z += sin(_Time.x * _SineFreqX2) * _SineAmplX2;
 					o.uv.w += sin(_Time.x * _SineFreqY2) * _SineAmplY2;
 
-					// 3. Calculate vertex color (MMultiplier * Color * VertexColor)
 					o.color = (_MMultiplier * _Color) * v.color;
 
 					return o;
 				}
 
 				fixed4 frag(v2f i) : SV_Target {
-					// Sample both textures and multiply by the tint
 					fixed4 mainTex = tex2D(_MainTex, i.uv.xy);
 					fixed4 detailTex = tex2D(_DetailTex, i.uv.zw);
 

@@ -65,15 +65,12 @@ Shader "MADFINGER/Transparent/Blinking GodRays" {
 			  float3 normal = normalize(v.normal);
 			  float timeVal = _Time.y + (_BlinkingTimeOffsScale * v.color.z);
 
-			  // View space distance calculation using UnityObjectToViewPos
 			  float3 viewPos = UnityObjectToViewPos(v.vertex);
 			  float dist = sqrt(dot(viewPos, viewPos));
 
-			  // Distance fade calculations
 			  float fadeNear = clamp(dist / _FadeOutDistNear, 0.0, 1.0);
 			  float fadeFar = 1.0 - clamp((max(dist - _FadeOutDistFar, 0.0) * 0.2), 0.0, 1.0);
 
-			  // Blinking wave calculations
 			  float totalDuration = _TimeOnDuration + _TimeOffDuration;
 			  float timeMod = timeVal / totalDuration;
 			  float timeFrac = frac(abs(timeMod)) * totalDuration;
@@ -85,7 +82,6 @@ Shader "MADFINGER/Transparent/Blinking GodRays" {
 
 			  float pulseWave = (pulseIn * (pulseIn * (3.0 - (2.0 * pulseIn)))) * (1.0 - (pulseOut * (pulseOut * (3.0 - (2.0 * pulseOut)))));
 
-			  // Noise calculations
 			  float noiseAngle = timeVal * (6.28319 / _TimeOnDuration);
 			  float noiseWave = (_NoiseAmount * (sin(noiseAngle) * ((0.5 * cos((noiseAngle * 0.6366) + 56.7272)) + 0.5))) + (1.0 - _NoiseAmount);
 
@@ -94,14 +90,12 @@ Shader "MADFINGER/Transparent/Blinking GodRays" {
 
 			  float nearSq = fadeNear * fadeNear;
 
-			  // Vertex position scaling along normals
 			  float4 modifiedVertex = v.vertex;
 			  modifiedVertex.xyz += (((sizeGrowFactor * sizeGrowFactor) * _MaxGrowSize) * v.color.w) * normal;
 
 			  o.pos = UnityObjectToClipPos(modifiedVertex);
 			  o.uv = v.uv0.xy;
 
-			  // Final vertex color / intensity computation
 			  o.vertexColor = (((nearSq * nearSq) * (fadeFar * fadeFar)) * _Color) * _Multiplier * (finalBlink + _Bias);
 
 			  return o;

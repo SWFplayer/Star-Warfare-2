@@ -5,7 +5,6 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap_LOD100" {
 		_MainTex("Diffuse (RGB) Specular (A)", 2D) = "white" {}
 		_Emissive("Emissive", 2D) = "black" {}
 
-		// Unused properties kept for material compatibility
 		_Shininess("Shininess for Light Map", Range(0.03,1)) = 1
 		_SpecColor("Specular Color", Color) = (1,1,1,1)
 		_SpecularPower("Specular", Float) = 1
@@ -37,13 +36,10 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap_LOD100" {
 			};
 
 			void surf(Input IN, inout SurfaceOutput o) {
-				// 1. Sample Main Texture
 				fixed4 mainTex = tex2D(_MainTex, IN.uv_MainTex);
 
-				// 2. Albedo is the main texture multiplied by _Color
 				o.Albedo = mainTex.rgb * _Color.rgb;
 
-				// 3. Emissive is added at the end (handled by Surface Shader automatically)
 				o.Emission = tex2D(_Emissive, IN.uv_MainTex).rgb;
 
 				o.Alpha = 1.0;

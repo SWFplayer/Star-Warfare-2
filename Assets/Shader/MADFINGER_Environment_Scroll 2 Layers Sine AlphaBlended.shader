@@ -68,7 +68,7 @@ Shader "MADFINGER/Environment/Scroll 2 Layers Sine AlphaBlended"
 				struct v2f
 				{
 					float4 pos : SV_POSITION;
-					float4 uv : TEXCOORD0; // xy = Base UV, zw = Detail UV
+					float4 uv : TEXCOORD0;         
 					fixed4 color : COLOR;
 				};
 
@@ -77,28 +77,22 @@ Shader "MADFINGER/Environment/Scroll 2 Layers Sine AlphaBlended"
 					v2f o;
 					o.pos = UnityObjectToClipPos(v.vertex);
 
-					// --- Base Layer UVs ---
 					float2 baseUV = TRANSFORM_TEX(v.uv, _MainTex);
 					float2 baseScroll = float2(_ScrollX, _ScrollY) * _Time.xy;
 					baseUV += frac(baseScroll);
 
-					// Add Sine Wave to Base Layer
 					baseUV.x += sin(_Time.y * _SineFreqX) * _SineAmplX;
 					baseUV.y += sin(_Time.y * _SineFreqY) * _SineAmplY;
 
-					// --- Detail Layer UVs ---
 					float2 detailUV = TRANSFORM_TEX(v.uv, _DetailTex);
 					float2 detailScroll = float2(_Scroll2X, _Scroll2Y) * _Time.xy;
 					detailUV += frac(detailScroll);
 
-					// Add Sine Wave to Detail Layer
 					detailUV.x += sin(_Time.y * _SineFreqX2) * _SineAmplX2;
 					detailUV.y += sin(_Time.y * _SineFreqY2) * _SineAmplY2;
 
-					// Pack into interpolator
 					o.uv = float4(baseUV, detailUV);
 
-					// Vertex color * Tint color * Multiplier
 					o.color = (_MMultiplier * _Color) * v.color;
 
 					return o;
@@ -106,7 +100,6 @@ Shader "MADFINGER/Environment/Scroll 2 Layers Sine AlphaBlended"
 
 				fixed4 frag(v2f i) : SV_Target
 				{
-					// Multiply both layers together, then apply tint and vertex color
 					fixed4 col = tex2D(_MainTex, i.uv.xy) * tex2D(_DetailTex, i.uv.zw) * i.color;
 					return col;
 				}

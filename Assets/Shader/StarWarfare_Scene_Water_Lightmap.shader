@@ -51,8 +51,6 @@ Shader "StarWarfare/Scene/Water_Lightmap"
 				samplerCUBE _ReflectionCube;
 
 				#ifdef LIGHTMAP_ON
-				// sampler2D unity_Lightmap;
-				// float4 unity_LightmapST;
 				float _LightMap;
 				#endif
 
@@ -68,7 +66,6 @@ Shader "StarWarfare/Scene/Water_Lightmap"
 				float _WaveScale;
 				float4 WaveSpeed;
 
-				// Unity built-in sets _WaveOffset based on WaveSpeed and Time
 				float4 _WaveOffset;
 
 				struct appdata
@@ -85,7 +82,7 @@ Shader "StarWarfare/Scene/Water_Lightmap"
 				{
 					float4 pos : SV_POSITION;
 					float2 uv : TEXCOORD0;
-					float4 waveUVs : TEXCOORD1; // xy = wave1 UV, zw = wave2 UV
+					float4 waveUVs : TEXCOORD1;         
 					float3 reflectVec : TEXCOORD2;
 					#ifdef LIGHTMAP_ON
 					float2 lmUV : TEXCOORD3;
@@ -99,22 +96,14 @@ Shader "StarWarfare/Scene/Water_Lightmap"
 					o.pos = UnityObjectToClipPos(v.vertex);
 					o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
-					// --- Wave Normal UVs ---
-					// The original shader uses _glesVertex.xy (object space position) 
-					// multiplied by wave scale, plus a script-set _WaveOffset.
 					o.waveUVs = (v.vertex.xyxy * _WaveScale) + _WaveOffset;
 
-					// --- Fake Reflection Vector ---
-					// Compute view direction, reflect it against the normal, 
-					// transform to world space, and flip X/Y.
 					float3 worldNormal = UnityObjectToWorldNormal(v.normal);
 					float3 viewDir = WorldSpaceViewDir(v.vertex);
 					float3 reflectVec = reflect(-viewDir, worldNormal);
 
-					// Transform reflection vector to world space
 					reflectVec = mul((float3x3)unity_ObjectToWorld, reflectVec);
 
-					// Flip X/Y to match the decompiled shader's specific reflection mapping
 					reflectVec.xy = -reflectVec.xy;
 
 					o.reflectVec = reflectVec;
@@ -129,55 +118,42 @@ Shader "StarWarfare/Scene/Water_Lightmap"
 
 				fixed4 frag(v2f i) : SV_Target
 				{
-					// --- 1. Sample Textures ---
 					fixed4 mainTex = tex2D(_MainTex, i.uv);
 					fixed4 emissiveTex = tex2D(_Emissive, i.uv);
 					fixed specMask = tex2D(_SpecTex, i.uv).x;
 					fixed reflectAlpha = tex2D(_ReflectionAlpha, i.uv).x;
 
-					// --- 2. Dual-Layer Normal Mapping ---
 					fixed3 bump1 = UnpackNormal(tex2D(_NormalTex, i.waveUVs.xy));
 					fixed3 bump2 = UnpackNormal(tex2D(_NormalTex, i.waveUVs.zw));
 
-					// Average the two normals (as per original shader)
 					fixed3 normal = normalize((bump1 + bump2) * 0.5);
 
-					// --- 3. Lighting Math ---
 					fixed3 shadow = fixed3(_Attenuation * 2.0, _Attenuation * 2.0, _Attenuation * 2.0);
 
 					#ifdef LIGHTMAP_ON
-					// Custom Lightmap blending
 					fixed4 lmTex = UNITY_SAMPLE_TEX2D(unity_Lightmap, i.lmUV);
 					fixed3 lm = (2.0 * lmTex.xyz) * _LightMap;
 					shadow = min(lm, shadow * 0.8);
 
-					// Half-Lambert
 					fixed NdotL = max(0.0, dot(normal, _LightDir) * 0.5 + 1.0);
 				#else
-					// Standard Lambert
 					fixed NdotL = max(0.0, dot(normal, _LightDir));
 				#endif
 
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
 				fixed3 finalLight = lerp(shadow * NdotL, ambient + 1.0, ambient);
 
-				// Diffuse
 				fixed3 diffuse = (mainTex.rgb * finalLight) * _Color.rgb;
 
-				// Specular
 				fixed3 spec = (specMask * shadow * _SpecularPower) * _SpecColor.rgb;
 
 				fixed3 result = diffuse + spec;
 
-				// --- 4. Cubemap Reflection ---
-				// Reflect the already reflected view vector using the wave normal
 				float3 refl = reflect(i.reflectVec, normal);
 				fixed3 cubeReflect = texCUBE(_ReflectionCube, refl).rgb;
 
-				// Add reflection (scaled by OriginPower)
 				result = (result * _OriginPower) + (cubeReflect * reflectAlpha * _ReflectionPower);
 
-				// Add Emissive
 				result += emissiveTex.rgb;
 
 				fixed4 finalColor = fixed4(result, _alpha);

@@ -65,18 +65,15 @@ Shader "Advanced/Scroll Single AlphaBlended_No_Lightmap"
 					v2f o;
 					o.pos = UnityObjectToClipPos(v.vertex);
 
-					// --- 1. Scrolling ---
 					float2 scrolledUV = TRANSFORM_TEX(v.uv, _MainTex);
 					float2 scrollOffset = float2(_ScrollX, _ScrollY) * _Time.xy;
 					scrolledUV += frac(scrollOffset);
 
-					// --- 2. Sine Wave Distortion ---
 					scrolledUV.x += sin(_Time.y * _SineFreqX) * _SineAmplX;
 					scrolledUV.y += sin(_Time.y * _SineFreqY) * _SineAmplY;
 
 					o.uv = scrolledUV;
 
-					// --- 3. Constant Multiplier Color ---
 					o.color = fixed4(_MMultiplier, _MMultiplier, _MMultiplier, _MMultiplier);
 
 					UNITY_TRANSFER_FOG(o, o.pos);

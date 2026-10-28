@@ -45,9 +45,6 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 		  sampler2D _2DReflect;
 		  sampler2D _Emissive;
 		  sampler2D _ReflectionAlpha;
-		  // sampler2D unity_Lightmap;
-		  // float4 unity_LightmapST;
-
 		  float _Shininess;
 		  float _LightMap;
 		  float4 _Color;

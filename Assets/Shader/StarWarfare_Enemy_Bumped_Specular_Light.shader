@@ -36,24 +36,17 @@ Shader "StarWarfare/Enemy/Bumped_Specular_Light"
 
 			void surf(Input IN, inout SurfaceOutput o)
 			{
-				// 1. Sample Textures
 				fixed4 mainTex = tex2D(_MainTex, IN.uv_MainTex);
 				fixed4 lightTex = tex2D(_lightTex, IN.uv_MainTex);
 				fixed3 normalTex = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));
 
-				// 2. The Custom Light Texture Math
-				// The original shader adds the light texture to the base color before lighting.
-				// tmpvar_7 = (tmpvar_5.xyz + (_lightRate * Tex2DLight_4).xyz);
 				fixed3 finalAlbedo = mainTex.rgb + (lightTex.rgb * _lightRate);
 
-				// 3. Set Surface Outputs
 				o.Albedo = finalAlbedo;
 				o.Normal = normalTex;
 
-				// The Alpha channel of the main texture acts as the Gloss mask, scaled by _SpecMulti
 				o.Gloss = mainTex.a * _SpecMulti;
 
-				// Shininess property
 				o.Specular = _Shininess;
 
 				o.Alpha = 1.0;

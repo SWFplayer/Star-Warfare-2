@@ -27,7 +27,7 @@ Shader "Advanced/Lightmap" {
 					float4 vertex   : POSITION;
 					float3 normal   : NORMAL;
 					float4 uv0      : TEXCOORD0;
-					float4 uv1      : TEXCOORD1; // Lightmap UVs
+					float4 uv1      : TEXCOORD1;   
 				};
 
 				struct v2f {
@@ -40,9 +40,6 @@ Shader "Advanced/Lightmap" {
 
 				sampler2D _MainTex;
 				float4 _MainTex_ST;
-				// sampler2D unity_Lightmap;
-				// float4 unity_LightmapST;
-
 				float3 _SpecOffset;
 				float _SpecRange;
 				float3 _SpecColor;
@@ -53,30 +50,21 @@ Shader "Advanced/Lightmap" {
 					v2f o;
 					o.vertex = UnityObjectToClipPos(v.vertex);
 
-					// 1. UV Scrolling (uses _Time.y which is standard seconds)
 					o.uv = v.uv0.xy + frac(_ScrollingSpeed.xy * _Time.y);
 
-					// 2. Lightmap UVs
 					o.uvLM = v.uv1.xy * unity_LightmapST.xy + unity_LightmapST.zw;
 
-					// 3. Fake Specular Math (Per-Vertex)
-					// Get normal in view space
 					float3 viewNormal = mul((float3x3)UNITY_MATRIX_MV, v.normal);
 
-					// Calculate vertex position in view space
 					float3 viewPos = mul(UNITY_MATRIX_MV, v.vertex).xyz;
 
-					// Offset the specular highlight. Note the vec3(1,1,-1) in the GLSL
 					float3 specPos = viewPos - (_SpecOffset * float3(1.0, 1.0, -1.0));
 
-					// Half-vector between view direction (0,0,1) and light direction
 					float3 halfVec = normalize(float3(0.0, 0.0, 1.0) + normalize(-specPos));
 
-					// Blinn-Phong specular
 					float ndoth = saturate(dot(normalize(viewNormal), halfVec));
 					float specular = pow(ndoth, _Shininess * 128.0) * 2.0;
 
-					// Distance falloff
 					float dist = length(specPos);
 					float falloff = 1.0 - saturate(dist / _SpecRange);
 
@@ -88,16 +76,12 @@ Shader "Advanced/Lightmap" {
 				}
 
 				fixed4 frag(v2f i) : SV_Target {
-					// Sample base texture
 					fixed4 tex = tex2D(_MainTex, i.uv);
 
-				// Sample lightmap (baked lighting is doubled)
 				fixed3 lm = 2.0 * UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uvLM).rgb;
 
-				// Combine: Base RGB + (Specular * Texture Alpha)
 				fixed3 albedo = tex.rgb + (i.specular * tex.a);
 
-				// Apply lighting
 				fixed3 finalColor = albedo * lm;
 
 				UNITY_APPLY_FOG(i.fogCoord, finalColor);

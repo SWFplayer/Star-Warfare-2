@@ -12,7 +12,7 @@ Shader "Hidden/FastBloom"
 		sampler2D _MainTex;
 	float4 _MainTex_TexelSize;
 	sampler2D _Bloom;
-	float4 _Parameter; // x = blurSpread, z = threshold, w = intensity
+	float4 _Parameter;          
 
 	struct appdata
 	{
@@ -50,9 +50,6 @@ Shader "Hidden/FastBloom"
 		Cull Off
 		Fog { Mode Off }
 
-		// =====================================================
-		// PASS 0: Combine Bloom and MainTex
-		// =====================================================
 		Pass
 		{
 			CGPROGRAM
@@ -75,9 +72,6 @@ Shader "Hidden/FastBloom"
 			ENDCG
 		}
 
-		// =====================================================
-		// PASS 1: Downsample & Threshold
-		// =====================================================
 		Pass
 		{
 			CGPROGRAM
@@ -101,18 +95,12 @@ Shader "Hidden/FastBloom"
 			{
 				fixed4 sum = tex2D(_MainTex, i.uv0) + tex2D(_MainTex, i.uv1) + tex2D(_MainTex, i.uv2) + tex2D(_MainTex, i.uv3);
 				fixed4 avg = sum / 4.0;
-				// Subtract threshold and clamp to 0
 				fixed4 thresholded = max(avg - _Parameter.z, fixed4(0,0,0,0));
 				return thresholded * _Parameter.w;
 			}
 			ENDCG
 		}
 
-				// =====================================================
-				// PASS 2 & 3: Blur (Horizontal / Vertical)
-				// =====================================================
-				// Note: These passes are identical except for the blur direction.
-				// We'll use the same CGPROGRAM for both by adjusting the vertex input.
 				Pass
 				{
 					CGPROGRAM
@@ -175,9 +163,6 @@ Shader "Hidden/FastBloom"
 					ENDCG
 				}
 
-						// =====================================================
-						// PASS 4 & 5: Optimized Blur (using 4 UV taps)
-						// =====================================================
 						Pass
 						{
 							CGPROGRAM

@@ -42,13 +42,11 @@ Shader "StarWarfare/Middle/SNDM_new" {
 			};
 
 			void surf(Input IN, inout SurfaceOutput o) {
-				// 1. Sample Textures
 				fixed4 baseTex = tex2D(_RGBA, IN.uv_RGBA);
 				fixed4 lightTex = tex2D(_lightTex, IN.uv_RGBA);
 				fixed4 normalTex = tex2D(_normalmap, IN.uv_normalmap);
 				fixed4 specTex = tex2D(_specTex_Gloss, IN.uv_specTex_Gloss);
 
-				// 2. Calculate Albedo (matching the GLSL's paint mask logic)
 				if (_useCustomColor > 0.5) {
 					o.Albedo = (baseTex.rgb * (1.0 - normalTex.a))
 							 + (lightTex.rgb * _lightRate)
@@ -58,31 +56,25 @@ Shader "StarWarfare/Middle/SNDM_new" {
 		  o.Albedo = baseTex.rgb + (lightTex.rgb * _lightRate);
 	  }
 
-				// 3. Setup Normal
 				o.Normal = UnpackNormal(normalTex);
 
-				// 4. Setup Specular and Gloss
 				o.Specular = specTex.rgb * _specMultiple;
 				o.Gloss = _shininess;
 
 				o.Alpha = 1.0;
 			}
 
-			// Custom Lighting Function
 			inline fixed4 LightingCustomSNDM(SurfaceOutput s, fixed3 lightDir, half3 viewDir, fixed atten) {
 				half3 h = normalize(lightDir + viewDir);
 				half diff = max(0, dot(s.Normal, lightDir));
 
 				half nh = max(0, dot(s.Normal, h));
-				// The GLSL uses Gloss * 128 for the specular power
 				half specPow = pow(nh, s.Gloss * 128.0);
 
-				// The GLSL specular uses a luminance factor
 				half specLuminance = dot(_LightColor0.rgb, half3(0.22, 0.707, 0.071));
 				half3 spec = s.Specular * specPow * specLuminance;
 
 				fixed4 c;
-				// The GLSL multiplies the final result by 2.0
 				c.rgb = (s.Albedo * _LightColor0.rgb * diff + spec * _LightColor0.rgb) * 2.0 * atten;
 				c.a = s.Alpha;
 				return c;

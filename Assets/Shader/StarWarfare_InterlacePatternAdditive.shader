@@ -22,7 +22,7 @@ Shader "StarWarfare/InterlacePatternAdditive"
 			{
 				ZWrite Off
 				Cull Off
-				Blend One One // Additive Blending
+				Blend One One   
 
 				CGPROGRAM
 				#include "UnityCG.cginc"
@@ -54,16 +54,10 @@ Shader "StarWarfare/InterlacePatternAdditive"
 					v2f o;
 					o.pos = UnityObjectToClipPos(v.vertex);
 
-					// Standard UV for the main texture
 					o.uv = v.uv;
 
-					// --- Interlace Pattern Scrolling ---
-					// Base UV transform for the interlace pattern
 					float2 patternUV = TRANSFORM_TEX(v.uv, _InterlacePattern);
 
-					// The original shader offsets the UV using: _Time.x * _InterlacePattern_ST.zw
-					// Note: _InterlacePattern_ST.zw contains the Offset (X, Y) of the material.
-					// This is a strange but specific behavior in this shader.
 					float2 scrollOffset = _Time.xx * _InterlacePattern_ST.zw;
 
 					o.uvInterlace = patternUV + scrollOffset;
@@ -74,7 +68,6 @@ Shader "StarWarfare/InterlacePatternAdditive"
 
 				fixed4 frag(v2f i) : SV_Target
 				{
-					// Sample base texture and interlace pattern, then multiply them
 					fixed4 col = tex2D(_MainTex, i.uv) * tex2D(_InterlacePattern, i.uvInterlace);
 
 					UNITY_APPLY_FOG(i.fogCoord, col);

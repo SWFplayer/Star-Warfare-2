@@ -59,7 +59,7 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap" {
 				struct v2f {
 					float4 pos : SV_POSITION;
 					float2 uv0 : TEXCOORD0;
-					float2 uv1 : TEXCOORD1; // Lightmap
+					float2 uv1 : TEXCOORD1;  
 					float2 reflectionUV : TEXCOORD2;
 					LIGHTING_COORDS(3,4)
 						UNITY_FOG_COORDS(5)
@@ -74,11 +74,9 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap" {
 						o.uv1 = v.texcoord1.xy * unity_LightmapST.xy + unity_LightmapST.zw;
 					#endif
 
-						// Original screen-space 2D reflection math
 						float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 						float3 reflectionPos = (-_WorldSpaceCameraPos * _Param1 + worldPos) * _Param2;
 
-						// Pass the XY world coordinates as the UV for the 2D reflection map
 						o.reflectionUV = reflectionPos.xy;
 
 						TRANSFER_VERTEX_TO_FRAGMENT(o);
@@ -93,36 +91,28 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Lightmap" {
 						float specMask = tex2D(_SpecTex, i.uv0).x;
 						float3 emissive = tex2D(_Emissive, i.uv0).rgb;
 
-						// Base Attenuation color
 						float3 shadow = _Attenuation * 2.0;
 						float3 ambient = unity_AmbientSky.rgb;
 
 						float3 lighting;
 
 						#ifdef LIGHTMAP_ON
-						// Lightmapped path
 						float3 lm = (2.0 * UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uv1).xyz) * _LightMap;
 						shadow = min(lm, (_Attenuation * 2.0) * 0.8);
 
-						// Diffuse part: Base + Reflection blended by ReflectionAlpha.x
 						float3 baseColor = mainTex.rgb + ((reflTex.rgb * _ReflectionPower) * reflAlpha.x);
 						float3 diff = (baseColor * shadow * _LightPower) * _Color.rgb;
 
-						// Specular part
 						lighting = diff + ((specMask * shadow) * _SpecularPower * _SpecColor.rgb);
 					#else
-						// Dynamic (non-lightmapped) path
 						float3 ambientMix = lerp(shadow * _LightPower, ambient + 1.0, ambient);
 
-						// Diffuse part: Base + Reflection blended by ReflectionAlpha.x
 						float3 baseColor = mainTex.rgb + ((reflTex.rgb * _ReflectionPower) * reflAlpha.x);
 						float3 diff = (baseColor * ambientMix) * _Color.rgb;
 
-						// Specular part
 						lighting = diff + ((specMask * shadow) * _SpecularPower * _SpecColor.rgb);
 					#endif
 
-						// Final result with Emissive added on top
 						float3 finalCol = lighting + emissive;
 
 						fixed4 finalColor = fixed4(finalCol, 0.0);

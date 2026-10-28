@@ -32,21 +32,16 @@ Shader "StarWarfare/Enemy/Bumped_Specular"
 
 			void surf(Input IN, inout SurfaceOutput o)
 			{
-				// 1. Sample Textures
 				fixed4 mainTex = tex2D(_MainTex, IN.uv_MainTex);
 				fixed3 normalTex = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));
 
-				// 2. Set Surface Outputs
 				o.Albedo = mainTex.rgb;
 				o.Normal = normalTex;
 
-				// The Alpha channel of the main texture acts as the Gloss mask, scaled by _SpecMulti
 				o.Gloss = mainTex.a * _SpecMulti;
 
-				// Shininess property
 				o.Specular = _Shininess;
 
-				// The original shader used "Blend SrcAlpha OneMinusSrcAlpha" and wrote alpha
 				o.Alpha = 1.0;
 			}
 			ENDCG

@@ -41,8 +41,8 @@ Shader "Advanced/Scroll_2Layers" {
 
 				struct v2f {
 					float4 vertex : SV_POSITION;
-					float4 uv     : TEXCOORD0;  // xy = base layer, zw = detail layer
-					fixed4 color : TEXCOORD1;  // = _MMultiplier broadcast
+					float4 uv     : TEXCOORD0;          
+					fixed4 color : TEXCOORD1;     
 				};
 
 				sampler2D _MainTex;
@@ -68,11 +68,9 @@ Shader "Advanced/Scroll_2Layers" {
 					v2f o;
 					o.vertex = UnityObjectToClipPos(v.vertex);
 
-					// Scroll offsets
 					float2 scroll1 = float2(_ScrollX, _ScrollY);
 					float2 scroll2 = float2(_Scroll2X, _Scroll2Y);
 
-					// Base layer UV: transform then add scrolled fract of time
 					float2 baseUV = v.uv * _MainTex_ST.xy + _MainTex_ST.zw
 						+ frac(float2(_ScrollX, _ScrollY) * _Time.xy);
 					float2 detailUV = v.uv * _DetailTex_ST.xy + _DetailTex_ST.zw

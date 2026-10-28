@@ -42,7 +42,7 @@ Shader "StarWarfare/SNDM_new_Alpha" {
 
 				struct v2f {
 					float4 pos : SV_POSITION;
-					float4 uv : TEXCOORD0; // xy = RGBA, zw = Normal
+					float4 uv : TEXCOORD0;       
 					float2 uvSpec : TEXCOORD1;
 					float3 lightDir : TEXCOORD2;
 					float3 shlight : TEXCOORD3;
@@ -75,15 +75,12 @@ Shader "StarWarfare/SNDM_new_Alpha" {
 					float4 texNormal = tex2D(_normalmap, i.uv.zw);
 					float4 texSpec = tex2D(_specTex_Gloss, i.uvSpec);
 
-					// Color blending
 					float factor = _useCustomColor * texNormal.w;
 					float3 baseCol = (texLight.rgb * _lightRate) + ((_maincolor.rgb * texBase.rgb) * (1.0 - factor)) + (_paintColor.rgb * factor);
 
-					// Specular setup
 					float gloss = _shininess + texSpec.a;
 					float3 specCol = (texSpec.rgb + _specColor.rgb) * _specMultiple;
 
-					// Lighting
 					float3 normal = normalize(texNormal.xyz * 2.0 - 1.0);
 					float3 lightDir = i.lightDir;
 					float3 viewDir = normalize(i.viewDir);
@@ -105,9 +102,6 @@ Shader "StarWarfare/SNDM_new_Alpha" {
 				ENDCG
 			}
 
-			// ==========================================
-			// PASS 2: FORWARD ADD
-			// ==========================================
 			Pass {
 				Name "FORWARD"
 				Tags { "LIGHTMODE" = "ForwardAdd" "QUEUE" = "Transparent" "IGNOREPROJECTOR" = "False" "RenderType" = "Opaque" }
@@ -184,14 +178,11 @@ Shader "StarWarfare/SNDM_new_Alpha" {
 
 					float3 c = (baseCol * res) + (res * (spec * specCol));
 
-					return float4(c, 0.0); // w=0 for additive blending
+					return float4(c, 0.0);     
 				}
 				ENDCG
 			}
 
-					// ==========================================
-					// PASS 3: PREPASS BASE (Deferred)
-					// ==========================================
 					Pass {
 						Name "PREPASS"
 						Tags { "LIGHTMODE" = "PrePassBase" "QUEUE" = "Transparent" "IGNOREPROJECTOR" = "False" "RenderType" = "Opaque" }

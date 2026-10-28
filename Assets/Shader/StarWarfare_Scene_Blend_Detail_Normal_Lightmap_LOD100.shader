@@ -6,7 +6,6 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap_LOD100" {
 		_MainTexB("Diffuse (RGB) Specular (A) blend", 2D) = "white" {}
 		_MaskMap("Blend Mask map", 2D) = "white" {}
 
-		// Unused properties kept for material compatibility
 		_Shininess("Shininess for Light Map", Range(0.03,1)) = 1
 		_SpecColor("Specular Color", Color) = (1,1,1,1)
 		_SpecularPower("Specular", Float) = 1
@@ -41,18 +40,15 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap_LOD100" {
 			struct Input {
 				float2 uv_MainTex;
 				float2 uv_MainTexB;
-				float4 color : COLOR; // Vertex color (used for mask UV)
+				float4 color : COLOR;       
 			};
 
 			void surf(Input IN, inout SurfaceOutput o) {
-				// 1. Sample Textures
 				fixed3 mainTex = tex2D(_MainTex, IN.uv_MainTex).rgb;
 				fixed3 mainTexB = tex2D(_MainTexB, IN.uv_MainTexB).rgb;
 
-				// 2. Blend using the Mask (GLSL uses vertex color XY for mask UV, then reads W)
 				float mask = tex2D(_MaskMap, IN.color.xy).w;
 
-				// 3. Final Albedo
 				o.Albedo = lerp(mainTexB, mainTex, mask) * _Color.rgb;
 			}
 			ENDCG

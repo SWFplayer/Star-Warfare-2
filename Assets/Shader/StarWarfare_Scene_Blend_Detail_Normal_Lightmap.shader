@@ -25,9 +25,6 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap" {
 			LOD 400
 			Tags { "RenderType" = "Opaque" }
 
-		// ==========================================
-		// PASS 1: CONTENTBASE (Forward Base)
-		// ==========================================
 		Pass {
 			Name "CONTENTBASE"
 			Tags { "LIGHTMODE" = "Always" "SHADOWSUPPORT" = "true" "RenderType" = "Opaque" }
@@ -72,7 +69,6 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap" {
 				o.pos = UnityObjectToClipPos(v.vertex);
 				o.uv0 = TRANSFORM_TEX(v.texcoord, _MainTex);
 				o.uv1 = TRANSFORM_TEX(v.texcoord, _MainTexB);
-				// Original shader uses mesh vertex color XY for mask UV
 				o.maskUV = v.color.xy;
 
 				#ifdef LIGHTMAP_ON
@@ -85,14 +81,12 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap" {
 			}
 
 			float4 frag(v2f i) : SV_Target {
-				// Sample Textures
 				float4 mainTex = tex2D(_MainTex, i.uv0);
 				float4 mainTexB = tex2D(_MainTexB, i.uv1);
 
 				float4 detNorm = tex2D(_DetailNormal, i.uv0 * _UVDetailNormalTile);
 				float4 detNormB = tex2D(_DetailNormalB, i.uv1 * _UVDetailNormalTileB);
 
-				// Calculate Normals
 				float3 normA = tex2D(_NormalTex, i.uv0).xyz * 2.0 - 1.0;
 				normA.xy += ((detNorm.xy * 2.0) - 1.0) * _DetailNormalMulti;
 				normA = normalize(normA);
@@ -101,38 +95,32 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap" {
 				normB.xy = ((detNormB.xy * 2.0) - 1.0) * _DetailNormalMultiB;
 				normB = normalize(normB);
 
-				float3 amb = unity_AmbientSky.rgb; // glstate_lightmodel_ambient equivalent
+				float3 amb = unity_AmbientSky.rgb;   
 				float3 shadow = _Attenuation * 2.0;
 
-				// Lighting A
 				float NdotLA = max(0.0, dot(normA, _LightDir));
-				float3 mixA = lerp(shadow * NdotLA, amb + 1.0, amb); // Original uses mix()
+				float3 mixA = lerp(shadow * NdotLA, amb + 1.0, amb);    
 				float3 diffA = (mainTex.rgb * mixA) * _Color.rgb;
 				float3 resultA = diffA + ((mainTex.a * shadow) * _SpecularPower * _SpecColor.rgb);
 
-				// Lighting B
 				float NdotLB = max(0.0, dot(normB, _LightDirB));
 				float3 mixB = lerp(shadow * NdotLB, amb + 1.0, amb);
 				float3 diffB = (mainTexB.rgb * mixB) * _Color.rgb;
 				float3 resultB = diffB + ((mainTexB.a * shadow) * _SpecularPower * _SpecColor.rgb);
 
-				// Apply Lightmap overrides if present
 				#ifdef LIGHTMAP_ON
 					float3 lm = (2.0 * UNITY_SAMPLE_TEX2D(unity_Lightmap, i.lmap).xyz) * _LightMap;
 					shadow = min(lm, (_Attenuation * 2.0) * 0.8);
 
-					// Recalculate A with Lightmap
 					float NdotLA_lm = max(0.0, (dot(normA, _LightDir) * 0.5) + 1.0);
 					diffA = ((mainTex.rgb * shadow) * NdotLA_lm) * _Color.rgb;
 					resultA = diffA + ((mainTex.a * shadow) * _SpecularPower * _SpecColor.rgb);
 
-					// Recalculate B with Lightmap
 					float NdotLB_lm = max(0.0, (dot(normB, _LightDirB) * 0.5) + 1.0);
 					diffB = ((mainTexB.rgb * shadow) * NdotLB_lm) * _Color.rgb;
 					resultB = diffB + ((mainTexB.a * shadow) * _SpecularPower * _SpecColor.rgb);
 				#endif
 
-					// Blend A and B using the MaskMap's Alpha channel (sampled with vertex color XY)
 					float blendMask = tex2D(_MaskMap, i.maskUV).w;
 					float3 finalCol = lerp(resultB, resultA, blendMask);
 
@@ -144,9 +132,6 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap" {
 				ENDCG
 			}
 
-		// ==========================================
-		// PASS 2: FORWARD ADD
-		// ==========================================
 		Pass {
 			Name "FORWARD"
 			Tags { "LIGHTMODE" = "ForwardAdd" "RenderType" = "Opaque" }
@@ -195,7 +180,6 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap" {
 				o.uv1 = TRANSFORM_TEX(v.texcoord, _MainTexB);
 				o.maskUV = v.color.xy;
 
-				// Directional light direction for Add pass
 				o.lightDir = ObjSpaceLightDir(v.vertex);
 
 				TRANSFER_VERTEX_TO_FRAGMENT(o);
@@ -221,11 +205,9 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap" {
 				float3 lightDir = normalize(i.lightDir);
 				float atten = LIGHT_ATTENUATION(i);
 
-				// Lighting A
 				float NdotLA = max(0.0, dot(normA, lightDir));
 				float3 diffA = (mainTex.rgb * _LightColor0.rgb * NdotLA) * _Color.rgb;
 
-				// Lighting B
 				float NdotLB = max(0.0, dot(normB, lightDir));
 				float3 diffB = (mainTexB.rgb * _LightColor0.rgb * NdotLB) * _Color.rgb;
 

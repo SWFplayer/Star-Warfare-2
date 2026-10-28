@@ -47,8 +47,6 @@ Shader "StarWarfare/Scene/Water_Lightmap_LOD100"
 				sampler2D _Emissive;
 
 				#ifdef LIGHTMAP_ON
-				// sampler2D unity_Lightmap;
-				// float4 unity_LightmapST;
 				float _LightMap;
 				#endif
 
@@ -89,20 +87,16 @@ Shader "StarWarfare/Scene/Water_Lightmap_LOD100"
 
 				fixed4 frag(v2f i) : SV_Target
 				{
-					// 1. Sample Main Texture
 					fixed3 color = tex2D(_MainTex, i.uv).rgb;
 
-				// 2. Apply Lightmap (if enabled)
 				#ifdef LIGHTMAP_ON
 					fixed4 lmTex = UNITY_SAMPLE_TEX2D(unity_Lightmap, i.lmUV);
 					fixed3 lm = (2.0 * lmTex.rgb) * _LightMap;
 					color *= lm;
 				#endif
 
-					// 3. Add Emissive
 					color += tex2D(_Emissive, i.uv).rgb;
 
-					// 4. Output with constant alpha
 					fixed4 result = fixed4(color, _alpha);
 
 					UNITY_APPLY_FOG(i.fogCoord, result);

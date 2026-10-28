@@ -47,18 +47,15 @@ Shader "MADFINGER/Transparent/GodRays" {
 		  v2f vert(appdata v) {
 			  v2f o;
 
-			  // View space distance calculation
 			  float3 viewPos = UnityObjectToViewPos(v.vertex);
 			  float dist = sqrt(dot(viewPos, viewPos));
 
-			  // Distance fade calculations
 			  float fadeNear = clamp(dist / _FadeOutDistNear, 0.0, 1.0);
 			  float fadeFar = 1.0 - clamp((max(dist - _FadeOutDistFar, 0.0) * 0.2), 0.0, 1.0);
 
 			  float fadeNearSq = fadeNear * fadeNear;
 			  float fadeFactor = (fadeNearSq * fadeNearSq) * (fadeFar * fadeFar);
 
-			  // Vertex contraction near camera
 			  float3 normal = normalize(v.normal);
 			  float4 vpos = v.vertex;
 			  vpos.xyz -= ((normal * clamp(1.0 - fadeFactor, 0.0, 1.0)) * _Color.w) * _ContractionAmount;

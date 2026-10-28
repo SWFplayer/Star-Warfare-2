@@ -45,11 +45,9 @@ Shader "Hidden/Glow Downsample"
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
 
-				// Calculate 4 diagonal offsets for the downsample blur
 				float2 texelSize = _MainTex_TexelSize.xy;
 				float2 uv = v.uv;
 
-				// Bottom-left, Bottom-right, Top-right, Top-left
 				o.uv0 = uv + float2(-texelSize.x, -texelSize.y);
 				o.uv1 = uv + float2(texelSize.x, -texelSize.y);
 				o.uv2 = uv + float2(texelSize.x,  texelSize.y);
@@ -60,17 +58,14 @@ Shader "Hidden/Glow Downsample"
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				// Sample the 4 diagonal points and average them (box blur)
 				fixed4 col = (tex2D(_MainTex, i.uv0) +
 							  tex2D(_MainTex, i.uv1) +
 							  tex2D(_MainTex, i.uv2) +
 							  tex2D(_MainTex, i.uv3)) / 4.0;
 
-			// Apply color multiplier and alpha tint
 			col.rgb *= _Color.rgb;
 			col.rgb *= (col.a + _Color.a);
 
-			// Output with 0 alpha (this shader is used for blending in subsequent passes)
 			col.a = 0.0;
 			return col;
 		}

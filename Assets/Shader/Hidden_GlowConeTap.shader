@@ -35,8 +35,8 @@ Shader "Hidden/GlowConeTap"
 			struct v2f
 			{
 				float4 pos : SV_POSITION;
-				float4 uv01 : TEXCOORD0; // xy = UV + offset, zw = UV + offset
-				float4 uv23 : TEXCOORD1; // xy = UV + offset, zw = UV + offset
+				float4 uv01 : TEXCOORD0;           
+				float4 uv23 : TEXCOORD1;           
 			};
 
 			v2f vert(appdata v)
@@ -44,13 +44,10 @@ Shader "Hidden/GlowConeTap"
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
 
-				// Calculate the offset based on texel size and blur offsets
 				float2 offset = _MainTex_TexelSize.xy * _BlurOffsets.xy;
 
-				// Calculate 4 diagonal UVs
 				float2 uv = v.uv;
 
-				// Top-right, Bottom-right, Top-left, Bottom-left
 				o.uv01.xy = uv + float2(offset.x,  offset.y);
 				o.uv01.zw = uv + float2(-offset.x,  offset.y);
 				o.uv23.xy = uv + float2(offset.x, -offset.y);
@@ -61,16 +58,13 @@ Shader "Hidden/GlowConeTap"
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				// Sample the 4 cone taps and add them together
 				fixed4 col = tex2D(_MainTex, i.uv01.xy) +
 							 tex2D(_MainTex, i.uv01.zw) +
 							 tex2D(_MainTex, i.uv23.xy) +
 							 tex2D(_MainTex, i.uv23.zw);
 
-			// Multiply by the color RGB
 			col.rgb *= _Color.rgb;
 
-			// Multiply the final result by the color Alpha
 			return col * _Color.a;
 		}
 		ENDCG

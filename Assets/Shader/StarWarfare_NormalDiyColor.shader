@@ -40,17 +40,13 @@ Shader "StarWarfare/NormalDiyColor"
 
 			void surf(Input IN, inout SurfaceOutput o)
 			{
-				// 1. Sample Textures
 				fixed4 mainTex = tex2D(_MainTex, IN.uv_MainTex);
 				fixed4 maskTex = tex2D(_MaskMap, IN.uv_MaskMap);
 
-				// 2. Scanline / Roll Effect
-				// Check the Alpha channel of the mask map to enable the scan effect
 				fixed3 finalColor = mainTex.rgb;
 				if (maskTex.w >= 0.5)
 				{
 					float p = 0.0;
-					// Determine which axis to scan along
 					if (_RollFromX > 0.5)
 					{
 						p = IN.uv_MaskMap.x - _Roll;
@@ -60,20 +56,17 @@ Shader "StarWarfare/NormalDiyColor"
 						p = IN.uv_MaskMap.y - _Roll;
 					}
 
-					// Check if the current pixel falls within the scan width
 					if (p > -_Width && p < _Width)
 					{
 						float intensity = abs(p / _Width);
-						// Blend between TintColor and MainTex based on intensity
 						finalColor = (_TintColor.rgb * (1.0 - intensity)) + (mainTex.rgb * intensity);
 					}
 				}
 
-				// 3. Set Surface Outputs
 				o.Albedo = finalColor;
-				o.Normal = UnpackNormal(maskTex); // The mask map is used as the normal map
-				o.Gloss = mainTex.a;              // Alpha channel of MainTex is Gloss
-				o.Specular = _Shininess;          // Use the Shininess property
+				o.Normal = UnpackNormal(maskTex);          
+				o.Gloss = mainTex.a;                    
+				o.Specular = _Shininess;              
 				o.Alpha = mainTex.a * _Color.a;
 			}
 			ENDCG
