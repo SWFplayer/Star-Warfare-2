@@ -76,7 +76,7 @@ Otherwise, this is meant as a vanilla repository for the original game to be mod
 
 Special Thanks:
 
- - Zweronz: Star Warfare 1 PC Recomp
+ - Zweronz: Star Warfare 1 PC Recomp, the project description is forked from his repo.
  - Loot Loot / ESD XxNoobxX:  The unofficial upadates he made to the game in 2021 and 2023 are a big reason why this project was even possible in the first place.
  - ESD Ninja: Star Warfare X and Star Warfare Resurgence
  - Shadakiuh: The Archred Community Founder.
