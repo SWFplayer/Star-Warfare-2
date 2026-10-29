@@ -31,6 +31,8 @@
 Make sure to report bugs or commit bug fixes for any bug from the created from the decompilation process.
 Bug fixes and QOL changes for significant bugs and exploits from the original game will also usually be accepted (I had to actually make a freeze workaround for the windows build that doesn't occur in the editor).
 
+Clipping in the UI was also removed because I have serious skill issues with ngui (which this game uses heavily), and I can't get it to work correctly.
+
 Improvements to PC support are welcome.
 
 Otherwise, this is meant as a vanilla repository for the original game to be modded/enjoyed on all platforms.
