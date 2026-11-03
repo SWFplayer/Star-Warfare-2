@@ -31,6 +31,8 @@
 Make sure to report bugs or commit bug fixes for any bug from the created from the decompilation process.
 Bug fixes and QOL changes for significant bugs and exploits from the original game will also usually be accepted (I had to actually make a freeze workaround for the windows build that doesn't occur in the editor).
 
+Clipping in the UI was also removed because I have serious skill issues with ngui (which this game uses heavily), and I can't get it to work correctly.
+
 Improvements to PC support are welcome.
 
 Otherwise, this is meant as a vanilla repository for the original game to be modded/enjoyed on all platforms.
@@ -76,7 +78,7 @@ Otherwise, this is meant as a vanilla repository for the original game to be mod
 
 Special Thanks:
 
- - Zweronz: Star Warfare 1 PC Recomp
+ - Zweronz: Star Warfare 1 PC Recomp, the project description is forked from his repo.
  - Loot Loot / ESD XxNoobxX:  The unofficial upadates he made to the game in 2021 and 2023 are a big reason why this project was even possible in the first place.
  - ESD Ninja: Star Warfare X and Star Warfare Resurgence
  - Shadakiuh: The Archred Community Founder.
