@@ -231,12 +231,6 @@ public class PlayerScoreScript : MonoBehaviour
 		else if (go == SeeInfo)
 		{
 
-            //Annoying Freeze Bug on the build, Workaround for now.
-            if (Application.platform == RuntimePlatform.WindowsPlayer)
-            {
-                return;
-            }
-
             GameObject original = Resources.Load("UI/Menu/PlayerInfo/Prefab/PlayerInfoUI") as GameObject;
 			GameObject gameObject = UnityEngine.Object.Instantiate(original, new Vector3(0f, 2000f, 0f), Quaternion.identity) as GameObject;
 			PlayerInfoUI component = gameObject.GetComponent<PlayerInfoUI>();

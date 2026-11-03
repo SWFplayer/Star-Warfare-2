@@ -136,7 +136,7 @@ public class TutorialScript : MonoBehaviour
 		}
 		case TutorialType.TEXTURE:
 		{
-			Resources.UnloadAsset(currentTexture);
+			//Resources.UnloadAsset(currentTexture);
 			currentTexturePath = mToDoList[index].texturePath;
 			currentTexture = Resources.Load(currentTexturePath) as Texture2D;
 			if (currentTexture != null)
@@ -323,7 +323,7 @@ public class TutorialScript : MonoBehaviour
 	public void OnTutorialFinish()
 	{
 		TextureObject.mainTexture = null;
-		Resources.UnloadAsset(currentTexture);
+		//Resources.UnloadAsset(currentTexture);
 		if (currentTex != null)
 		{
 			currentTex.SetActive(false);

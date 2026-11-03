@@ -15,7 +15,7 @@ public class UIAtlasManager
 			Texture2D texture2D = Resources.Load(mAtlasPath[Mat_InGame.name], typeof(Texture2D)) as Texture2D;
 			if (Mat_InGame.mainTexture != null && texture2D != Mat_InGame.mainTexture)
 			{
-				Resources.UnloadAsset(Mat_InGame.mainTexture);
+				//Resources.UnloadAsset(Mat_InGame.mainTexture);
 				Mat_InGame.mainTexture = texture2D;
 			}
 			else if (Mat_InGame.mainTexture == null)
@@ -23,7 +23,7 @@ public class UIAtlasManager
 				Mat_InGame.mainTexture = texture2D;
 			}
 		}
-		Resources.UnloadUnusedAssets();
+		//Resources.UnloadUnusedAssets();
 	}
 
 	public static void UpdateMatOutOfGame()
@@ -34,7 +34,7 @@ public class UIAtlasManager
 			Texture2D texture2D = Resources.Load(mAtlasPath[Mat_OutOfGame.name], typeof(Texture2D)) as Texture2D;
 			if (Mat_OutOfGame.mainTexture != null && texture2D != Mat_OutOfGame.mainTexture)
 			{
-				Resources.UnloadAsset(Mat_OutOfGame.mainTexture);
+				//Resources.UnloadAsset(Mat_OutOfGame.mainTexture);
 				Mat_OutOfGame.mainTexture = texture2D;
 			}
 			else if (Mat_OutOfGame.mainTexture == null)
@@ -42,6 +42,6 @@ public class UIAtlasManager
 				Mat_OutOfGame.mainTexture = texture2D;
 			}
 		}
-		Resources.UnloadUnusedAssets();
+		//Resources.UnloadUnusedAssets();
 	}
 }

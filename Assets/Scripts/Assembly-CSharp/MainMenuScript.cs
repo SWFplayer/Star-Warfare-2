@@ -192,7 +192,7 @@ public class MainMenuScript : MonoBehaviour, UIMsgListener
 			TutorialManager.GetInstance().Trigger(TutorialTriggerType.REGISTER_TUTORIAL);
 		}
 		RemovePhoto();
-		Resources.UnloadUnusedAssets();
+		//Resources.UnloadUnusedAssets();
 	}
 
 	private void Update()

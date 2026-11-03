@@ -190,13 +190,8 @@ public class LobbyScript : MonoBehaviour, UIMsgListener
 	{
 		UnlockListPageScript.IsGoToCustomize = false;
 		mInstance = null;
-		Resources.UnloadAsset(UIAtlasManager.Mat_OutOfGame);
+		//Resources.UnloadAsset(UIAtlasManager.Mat_OutOfGame);
 	}
-
-    private void LoadLobbyOrMainMenu()
-    {
-        Application.LoadLevel("MainMenu");
-    }
 
     public void OnButtonClick(GameObject go)
 	{
@@ -220,42 +215,8 @@ public class LobbyScript : MonoBehaviour, UIMsgListener
 			{
 				UnityEngine.Object.DestroyObject(gameObject);
 			}
-
-            #if UNITY_EDITOR
-
-                        Debug.Log("Editor, No Need To Restart The Game");
-                        LoadLobbyOrMainMenu();
-            #else
-                
-                            if (Application.platform == RuntimePlatform.WindowsPlayer)
-                            {
-                                Debug.Log("Windows Build Freeze Bug Prevention");
-            
-                                GameApp.GetInstance().Save(); 
-
-                                try
-                                {
-                       
-                                    string exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-            
-                                    System.Diagnostics.Process.Start(exePath);
-                                }
-                                catch (System.Exception ex)
-                                {
-                                    Debug.LogError("Failed to restart game: " + ex.Message);
-                                }
-            
-                                Application.Quit();
-                            }
-                            else
-                            {
-                    
-                                Debug.Log("Not On Windows Build");
-                                LoadLobbyOrMainMenu();
-                            }
-            #endif
-            
-		}
+            Application.LoadLevel("MainMenu");
+        }
 		else if (go == CustomizeButton)
 		{
 			AudioManager.GetInstance().PlaySound(AudioName.MENU_BOTTON_OK);

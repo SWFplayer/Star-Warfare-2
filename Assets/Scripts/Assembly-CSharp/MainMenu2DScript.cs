@@ -207,7 +207,7 @@ public class MainMenu2DScript : MonoBehaviour, UIMsgListener
 		}
 		GameApp.GetInstance().isMainMenuLoaded = true;
 		AdsScript.mInstance.InitAds();
-		Resources.UnloadUnusedAssets();
+		//Resources.UnloadUnusedAssets();
 		GC.Collect();
 	}
 

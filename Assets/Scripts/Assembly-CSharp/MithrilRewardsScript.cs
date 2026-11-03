@@ -616,7 +616,7 @@ public class MithrilRewardsScript : MonoBehaviour
 		if (pauseStatus)
 		{
 			Debug.Log("Game will Pause!");
-			Resources.UnloadUnusedAssets();
+			//Resources.UnloadUnusedAssets();
 			GC.Collect();
 		}
 	}

@@ -737,7 +737,7 @@ public class GameWorld
 		EffectPool.GetInstance().GetEffectPool(EffectPoolType.MINE).DestructAll();
 		EffectPool.GetInstance().GetEffectPool(EffectPoolType.MINE).ReleaseAll();
 		Pool.sGetInstance().Deallocate(EffectName.MONSTER_FOOT_PARTICLE);
-		Resources.UnloadUnusedAssets();
+		//Resources.UnloadUnusedAssets();
 		GC.Collect();
 	}
 

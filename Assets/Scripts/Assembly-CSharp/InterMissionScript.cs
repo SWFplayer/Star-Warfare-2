@@ -214,7 +214,7 @@ public class InterMissionScript : MonoBehaviour, UIMsgListener
 	private void OnDestroy()
 	{
 		mInstance = null;
-		Resources.UnloadAsset(UIAtlasManager.Mat_OutOfGame);
+		//Resources.UnloadAsset(UIAtlasManager.Mat_OutOfGame);
 		GameApp.GetInstance().GetUserState().SaveCurrentCustomize(true, 0);
 		GameApp.GetInstance().Save();
 	}
@@ -866,55 +866,17 @@ public class InterMissionScript : MonoBehaviour, UIMsgListener
 		}
 		else if (go == ExitButton)
 		{
-			AudioManager.GetInstance().PlaySound(AudioName.MENU_BOTTON_CANCEL);
+            AudioManager.GetInstance().PlaySound(AudioName.MENU_BOTTON_CANCEL);
 
-            #if UNITY_EDITOR
-
-                        Debug.Log("Editor, No Need To Restart The Game");
-                        LoadLobbyOrMainMenu();
-            #else
-                
-                                        if (Application.platform == RuntimePlatform.WindowsPlayer)
-                                        {
-                                            Debug.Log("Windows Build Freeze Bug Prevention");
-            
-                                            GameApp.GetInstance().Save(); 
-
-                                            try
-                                            {
-                       
-                                                string exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-            
-                                                System.Diagnostics.Process.Start(exePath);
-                                            }
-                                            catch (System.Exception ex)
-                                            {
-                                                Debug.LogError("Failed to restart game: " + ex.Message);
-                                            }
-            
-                                            Application.Quit();
-                                        }
-                                        else
-                                        {
-                    
-                                            Debug.Log("Not On Windows Build");
-                                            LoadLobbyOrMainMenu();
-                                        }
-            #endif
-
-            Application.LoadLevel("MainMenu");
-		}
+            GameApp.GetInstance().Save();
+            GameWorld.LoadLevel("MainMenu", ELevelType.MENU);
+        }
 		else if (go == FreeMithrilButton)
 		{
 			GameObject original = Resources.Load("UI/Menu/Ads/Prefab/AdsUI") as GameObject;
 			GameObject gameObject = UnityEngine.Object.Instantiate(original) as GameObject;
 		}
 	}
-
-    private void LoadLobbyOrMainMenu()
-    {
-        Application.LoadLevel("MainMenu");
-    }
 
 
     public void ShowAvatarBag(bool isShowBag)

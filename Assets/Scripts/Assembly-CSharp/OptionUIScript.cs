@@ -64,9 +64,9 @@ public class OptionUIScript : MonoBehaviour
 				StateAim.mInstance.RefreshToggle();
 			}
 			GameApp.GetInstance().Save();
-			Resources.UnloadAsset(Atlas.spriteMaterial);
+			//Resources.UnloadAsset(Atlas.spriteMaterial);
 			UnityEngine.Object.Destroy(base.gameObject);
-			Resources.UnloadUnusedAssets();
+			//Resources.UnloadUnusedAssets();
 		}
 		else if (go == Tip)
 		{

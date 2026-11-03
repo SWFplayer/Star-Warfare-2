@@ -1177,57 +1177,19 @@ public class ResultPageUI : MonoBehaviour, UIMsgListener
 		else
 		{
 			LoadingUIScript.mInstance.ShowAfterMissionTip(GameApp.GetInstance().GetGameWorld().State, mMissionArray[0].Type, false, mHasLevelUp);
+            if (GameApp.GetInstance().GetNetworkManager().IsConnected())
+            {
+                LeaveRoomRequest request = new LeaveRoomRequest();
+                GameApp.GetInstance().GetNetworkManager().SendRequest(request);
+                GameWorld.LoadLevel("MultiMenu", ELevelType.MENU);
+            }
+            else
+            {
+                GameWorld.LoadLevel("MainMenu", ELevelType.MENU);
+            }
 
-            #if UNITY_EDITOR
-
-                        Debug.Log("Editor, No Need To Restart The Game");
-                        LoadLobbyOrMainMenu();
-            #else
-                
-                                    if (Application.platform == RuntimePlatform.WindowsPlayer)
-                                    {
-                                        Debug.Log("Windows Build Freeze Bug Prevention");
-            
-                                        GameApp.GetInstance().Save(); 
-
-                                        try
-                                        {
-                       
-                                            string exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-            
-                                            System.Diagnostics.Process.Start(exePath);
-                                        }
-                                        catch (System.Exception ex)
-                                        {
-                                            Debug.LogError("Failed to restart game: " + ex.Message);
-                                        }
-            
-                                        Application.Quit();
-                                    }
-                                    else
-                                    {
-                    
-                                        Debug.Log("Not On Windows Build");
-                                        LoadLobbyOrMainMenu();
-                                    }
-            #endif
-
-		}
+        }
 	}
-
-    private void LoadLobbyOrMainMenu()
-    {
-        if (GameApp.GetInstance().GetNetworkManager().IsConnected())
-        {
-            LeaveRoomRequest request = new LeaveRoomRequest();
-            GameApp.GetInstance().GetNetworkManager().SendRequest(request);
-            GameWorld.LoadLevel("MultiMenu", ELevelType.MENU);
-        }
-        else
-        {
-            GameWorld.LoadLevel("MainMenu", ELevelType.MENU);
-        }
-    }
 
     private void OnClickButton(GameObject go)
 	{

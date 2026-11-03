@@ -26,10 +26,10 @@ public class MemoryManager
 				if (!IsExitString(componentsInChildren[i].material.name, MaterialNotToFree) && componentsInChildren[i].material.HasProperty(propertyName))
 				{
 					Texture texture = componentsInChildren[i].material.GetTexture(propertyName);
-					Resources.UnloadAsset(texture);
+					//Resources.UnloadAsset(texture);
 				}
 			}
-			Resources.UnloadAsset(componentsInChildren[i].material);
+			//Resources.UnloadAsset(componentsInChildren[i].material);
 		}
 	}
 
@@ -122,7 +122,7 @@ public class MemoryManager
 					if (componentsInChildren[i].sharedMaterials[j].HasProperty(propertyName))
 					{
 						Texture texture = componentsInChildren[i].sharedMaterials[j].GetTexture(propertyName);
-						Resources.UnloadAsset(texture);
+						//Resources.UnloadAsset(texture);
 					}
 				}
 			}
@@ -140,7 +140,7 @@ public class MemoryManager
 			}
 			foreach (AnimationState item in componentsInChildren[i])
 			{
-				Resources.UnloadAsset(item.clip);
+				//Resources.UnloadAsset(item.clip);
 			}
 		}
 	}
@@ -152,7 +152,7 @@ public class MemoryManager
 		{
 			if (componentsInChildren[i] != null)
 			{
-				Resources.UnloadAsset(componentsInChildren[i].clip);
+				//Resources.UnloadAsset(componentsInChildren[i].clip);
 			}
 		}
 	}
@@ -164,7 +164,7 @@ public class MemoryManager
 		{
 			if (componentsInChildren[i] != null)
 			{
-				Resources.UnloadAsset(componentsInChildren[i].audioClip);
+				//Resources.UnloadAsset(componentsInChildren[i].audioClip);
 			}
 		}
 	}
@@ -180,10 +180,10 @@ public class MemoryManager
 			{
 				if (uIAtlas.name == text && uIAtlas.texture != null)
 				{
-					Resources.UnloadAsset(uIAtlas.spriteMaterial);
+					//Resources.UnloadAsset(uIAtlas.spriteMaterial);
 				}
 			}
 		}
-		Resources.UnloadUnusedAssets();
+		//Resources.UnloadUnusedAssets();
 	}
 }
