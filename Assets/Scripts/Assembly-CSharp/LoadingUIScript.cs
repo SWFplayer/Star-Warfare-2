@@ -70,7 +70,8 @@ public class LoadingUIScript : MonoBehaviour
 		mFirstLoadingSpriteIndex = 0;
 		SetLoadingSprites(mFirstLoadingSpriteIndex++);
 		VirtualCursorScript._HideCursor();
-		base.gameObject.SetActive(true);
+        if (CursorManager.Instance != null) CursorManager.Instance.LockCursor();
+        base.gameObject.SetActive(true);
 	}
 
 	public void LoadingFinished()
@@ -79,7 +80,8 @@ public class LoadingUIScript : MonoBehaviour
 		Random_Tip.text = string.Empty;
 		mIsLoading = false;
 		VirtualCursorScript._ShowCursor();
-		base.gameObject.SetActive(false);
+        if (CursorManager.Instance != null) CursorManager.Instance.UnlockCursor();
+        base.gameObject.SetActive(false);
 		if (!(InterMissionScript.GetInstance() != null))
 		{
 			return;

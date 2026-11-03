@@ -242,54 +242,18 @@ public class CoopResultPageUI : MonoBehaviour, UIMsgListener
 			GameApp.GetInstance().Save();
 			Lobby.GetInstance().IsMasterPlayer = false;
 			Lobby.GetInstance().SetCurrentRoomID(-1);
-            #if UNITY_EDITOR
-                        
-                        Debug.Log("Editor, No Need To Restart The Game");
-                        LoadLobbyOrMainMenu();
-            #else
-                
-                if (Application.platform == RuntimePlatform.WindowsPlayer)
-                {
-                    Debug.Log("Windows Build Freeze Bug Prevention");
-            
-                    GameApp.GetInstance().Save(); 
+            if (GameApp.GetInstance().GetNetworkManager().IsConnected())
+            {
 
-                    try
-                    {
-                       
-                        string exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-            
-                        System.Diagnostics.Process.Start(exePath);
-                    }
-                    catch (System.Exception ex)
-                    {
-                        Debug.LogError("Failed to restart game: " + ex.Message);
-                    }
-            
-                    Application.Quit();
-                }
-                else
-                {
-                    
-                    Debug.Log("Not On Windows Build");
-                    LoadLobbyOrMainMenu();
-                }
-            #endif
+                Application.LoadLevel("MultiMenu");
+            }
+            else
+            {
+                GameWorld.LoadLevel("MainMenu", ELevelType.MENU);
+            }
         }
     }
 
-    private void LoadLobbyOrMainMenu()
-    {
-        if (GameApp.GetInstance().GetNetworkManager().IsConnected())
-        {
-            
-            Application.LoadLevel("MultiMenu");
-        }
-        else
-        {
-            GameWorld.LoadLevel("MainMenu", ELevelType.MENU);
-        }
-    }
 
     public void OnMsgButtonClick(UIMsg whichMsg, UIMsg.UIMsgButton buttonId)
 	{

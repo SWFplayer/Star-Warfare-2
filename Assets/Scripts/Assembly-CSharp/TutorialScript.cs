@@ -339,7 +339,8 @@ public class TutorialScript : MonoBehaviour
 			GameApp.GetInstance().GetUIStateManager().FrGoToPhase(6, true, false, false);
 			UnityEngine.Object.Destroy(base.gameObject);
 			VirtualCursorScript._HideCursor();
-		}
+            if (CursorManager.Instance != null) CursorManager.Instance.LockCursor();
+        }
 		else if (mTutorialType == TutorialTriggerType.GAME_STORY)
 		{
 			GameApp.GetInstance().GetUserState().SetSelectedStageIndex(0);
@@ -404,5 +405,6 @@ public class TutorialScript : MonoBehaviour
 	private void OnEnable()
 	{
 		VirtualCursorScript._ShowCursor();
-	}
+        if (CursorManager.Instance != null) CursorManager.Instance.UnlockCursor();
+    }
 }

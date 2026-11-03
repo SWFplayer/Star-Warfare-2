@@ -271,12 +271,14 @@ public class InputController
             {
                 Time.timeScale = 0f;
                 AudioManager.GetInstance().PlaySound(AudioName.MENU_BOTTON_CANCEL);
+                
                 HUDBase.instance.OnPause();
                 GameApp.GetInstance().GetUIStateManager().FrGoToPhase(14, false, true, false);
             }
             if (Input.GetKeyDown(KeyCode.Escape) && HUDBase.instance != null && GameApp.GetInstance().GetGameMode().IsCoopMode() && (ResultPageUI.mInstance == null || !ResultPageUI.mInstance.gameObject.activeSelf))
             {
                 AudioManager.GetInstance().PlaySound(AudioName.MENU_BOTTON_CANCEL);
+                
                 HUDBase.instance.OnPause();
                 GameApp.GetInstance().GetUIStateManager().FrGoToPhase(14, false, true, false);
             }

@@ -141,7 +141,8 @@ public class HUDManager : HUDBase
 		else
 		{
 			VirtualCursorScript._HideCursor();
-		}
+            if (CursorManager.Instance != null) CursorManager.Instance.LockCursor();
+        }
 	}
 
 	public new void LoadHUD(HUDType type)
@@ -184,7 +185,8 @@ public class HUDManager : HUDBase
 		m_PauseCollision.SetActive(true);
 		m_PauseMenu.SetActive(true);
 		VirtualCursorScript._ShowCursor();
-	}
+        if (CursorManager.Instance != null) CursorManager.Instance.UnlockCursor();
+    }
 
 	public override void OnResume()
 	{
@@ -192,7 +194,8 @@ public class HUDManager : HUDBase
 		m_PauseCollision.SetActive(false);
 		m_PauseMenu.SetActive(false);
 		VirtualCursorScript._HideCursor();
-	}
+        if (CursorManager.Instance != null) CursorManager.Instance.LockCursor();
+    }
 
 	public new void Hide()
 	{
@@ -201,7 +204,8 @@ public class HUDManager : HUDBase
 		m_Weapon.Hide();
 		m_Aim.Hide();
 		VirtualCursorScript._ShowCursor();
-	}
+        if (CursorManager.Instance != null) CursorManager.Instance.UnlockCursor();
+    }
 
 	public new void Show()
 	{
@@ -210,7 +214,8 @@ public class HUDManager : HUDBase
 		m_Weapon.Show();
 		m_Aim.Show();
 		VirtualCursorScript._HideCursor();
-	}
+        if (CursorManager.Instance != null) CursorManager.Instance.LockCursor();
+    }
 
 	public new void HideWhenWaitingRebirth()
 	{

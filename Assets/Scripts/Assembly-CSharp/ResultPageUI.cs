@@ -388,7 +388,8 @@ public class ResultPageUI : MonoBehaviour, UIMsgListener
 			CheckTrialWeaponPush();
 		}
 		VirtualCursorScript._ShowCursor();
-	}
+        if (CursorManager.Instance != null) CursorManager.Instance.UnlockCursor();
+    }
 
 	public void InitSwVoidRewardInfo()
 	{

@@ -247,7 +247,7 @@ public class ThirdPersonStandardCameraScript : MonoBehaviour
 		target = GameApp.GetInstance().GetGameWorld().GetLocalPlayer()
 			.GetTransform();
 
-        CursorManager.Instance.LockCursor();
+        //CursorManager.Instance.LockCursor();
 
         angelH = target.rotation.eulerAngles.y;
 		if (mLocalPlayer.IsBoss)

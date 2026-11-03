@@ -2,74 +2,95 @@ using UnityEngine;
 
 public class JoystickHide : MonoBehaviour
 {
-	public GameObject inner;
+    public GameObject inner;
+    public GameObject outer;
 
-	public GameObject outer;
+    private TweenAlpha innerAlpha;
+    private TweenAlpha outerAlpha;
+    private Timer pressTimer = new Timer();
+    private UserState state;
+    private bool enableHide;
 
-	private TweenAlpha innerAlpha;
+    private static JoystickHide mInstance;
 
-	private TweenAlpha outerAlpha;
+    private void Awake()
+    {
+        mInstance = this;
 
-	private Timer pressTimer = new Timer();
+        if (GameApp.GetInstance() != null)
+        {
+            state = GameApp.GetInstance().GetUserState();
+        }
+    }
 
-	private UserState state;
+    public static JoystickHide GetInstance()
+    {
+        return mInstance;
+    }
 
-	private bool enableHide;
+    private void OnDestroy()
+    {
+        if (mInstance == this)
+        {
+            mInstance = null;
+        }
+    }
 
-	private static JoystickHide mInstance;
+    private void Start()
+    {
+        if (inner != null) innerAlpha = inner.GetComponent<TweenAlpha>();
+        if (outer != null) outerAlpha = outer.GetComponent<TweenAlpha>();
 
-	private void Awake()
-	{
-		mInstance = this;
-	}
+        if (innerAlpha != null) innerAlpha.duration = 2f;
+        if (outerAlpha != null) outerAlpha.duration = 2f;
 
-	public static JoystickHide GetInstance()
-	{
-		return mInstance;
-	}
+        pressTimer.SetTimer(1f, false);
+        pressTimer.Pause();
 
-	private void OnDestroy()
-	{
-		mInstance = null;
-	}
+        if (state == null && GameApp.GetInstance() != null)
+        {
+            state = GameApp.GetInstance().GetUserState();
+        }
 
-	private void Start()
-	{
-		innerAlpha = inner.GetComponent<TweenAlpha>();
-		outerAlpha = outer.GetComponent<TweenAlpha>();
-		innerAlpha.duration = 2f;
-		outerAlpha.duration = 2f;
-		pressTimer.SetTimer(1f, false);
-		pressTimer.Pause();
-		state = GameApp.GetInstance().GetUserState();
-		enableHide = state.GetAutoHide();
-	}
+        if (state != null)
+        {
+            enableHide = state.GetAutoHide();
+        }
+    }
 
-	private void OnPress(bool isPressed)
-	{
-		if (!isPressed)
-		{
-			innerAlpha.PlayForward();
-			outerAlpha.PlayForward();
-		}
-		else if (enableHide)
-		{
-			pressTimer.Do();
-		}
-	}
+    private void OnPress(bool isPressed)
+    {
+        if (!isPressed)
+        {
+            innerAlpha.PlayForward();
+            outerAlpha.PlayForward();
+        }
+        else if (enableHide)
+        {
+            pressTimer.Do();
+        }
+    }
 
-	public void Fresh()
-	{
-		enableHide = state.GetAutoHide();
-	}
+    public void Fresh()
+    {
+        if (state == null && GameApp.GetInstance() != null)
+        {
+            state = GameApp.GetInstance().GetUserState();
+        }
 
-	private void Update()
-	{
-		if (pressTimer.Ready() && innerAlpha != null && outerAlpha != null && enableHide)
-		{
-			innerAlpha.PlayReverse();
-			outerAlpha.PlayReverse();
-			pressTimer.Pause();
-		}
-	}
+        if (state != null)
+        {
+            enableHide = state.GetAutoHide();
+        }
+    }
+
+    private void Update()
+    {
+        if (pressTimer.Ready() && innerAlpha != null && outerAlpha != null && enableHide)
+        {
+            innerAlpha.PlayReverse();
+            outerAlpha.PlayReverse();
+            pressTimer.Pause();
+        }
+    }
 }

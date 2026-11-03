@@ -34,6 +34,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap" {
 		  #pragma vertex vert
 		  #pragma fragment frag
 		  #pragma multi_compile __ LIGHTMAP_ON
+		  #pragma multi_compile_fog
 		  #include "UnityCG.cginc"
 
 		  sampler2D _MainTex;
@@ -71,6 +72,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap" {
 			  float2 uv1 : TEXCOORD1;
 			  float2 uvLightmap : TEXCOORD2;
 			  float2 uvMask : TEXCOORD3;
+			  UNITY_FOG_COORDS(4)
 		  };
 
 		  v2f vert(appdata v) {
@@ -86,6 +88,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap" {
 			  o.uvLightmap = 0;
 			  #endif
 
+			  UNITY_TRANSFER_FOG(o, o.pos);
 			  return o;
 		  }
 
@@ -101,7 +104,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap" {
 			  half3 fixedLightDir = float3(0.57735, 0.57735, 0.57735);
 
 			  #if LIGHTMAP_ON
-			  // Lightmap active logic
+			  
 			  half4 lightMap = half4(2.0 * UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uvLightmap).xyz, 0.0);
 			  half3 lm = lightMap.xyz * _LightMap;
 			  half3 shadow = min(lm, (_Attenuation * 2.0) * 0.8);
@@ -116,7 +119,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap" {
 			  half3 specB_term = (((specB * shadow) * _SpecularPower)) * _SpecColor.xyz;
 			  colB = diffB + specB_term;
 		  #else
-			  // Standard / Lightmap off logic
+			  
 			  half3 shadow = _Attenuation * 2.0;
 			  half3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 			  half NdotL = max(0.0, dot(fixedLightDir, _LightDir));
@@ -135,7 +138,9 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap" {
 		  float mask = tex2D(_MaskMap, i.uvMask).w;
 		  half3 finalCol = lerp(colB, colA, mask);
 
-		  return fixed4(finalCol, 0.0);
+		  fixed4 result = fixed4(finalCol, 0.0);
+		  UNITY_APPLY_FOG(i.fogCoord, result);
+		  return result;
 	  }
 	  ENDCG
 	 }
