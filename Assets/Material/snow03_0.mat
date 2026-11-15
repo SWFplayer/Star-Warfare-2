@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: snow03_0
-  m_Shader: {fileID: 4800000, guid: a49fa5e12acd5c842afea4a5a7772516, type: 3}
+  m_Shader: {fileID: 4800000, guid: d6f7c36ebed4cc54582b8bb7ea7a3731, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -22,17 +22,35 @@ Material:
         m_Texture: {fileID: 2800000, guid: 80fc94e921a22b141b20ecd73898d766, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MainTexB:
+        m_Texture: {fileID: 2800000, guid: 636dd651d2d8cd14ea3ae8228b0d7b46, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskMap:
+        m_Texture: {fileID: 2800000, guid: 42437ea2bd2b1b34c8ee0f2b94329d20, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadowMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecTex:
         m_Texture: {fileID: 2800000, guid: b69fd7f19b83ea1498992e8615131a8f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Attenuation: 1
-    - _LightMap: 0.4
+    - _BlendRate: 0
+    - _GlossPower: 0
+    - _LightMap: 0.6
     - _LightPower: 1.1
+    - _LightPowerOfB: 1.27
+    - _ShadowDarkness: 0.5
     - _Shininess: 1
-    - _SpecularPower: 0.95
+    - _SpecularPower: 0.75
+    - _UVDetailNormalTile: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _LightDir: {r: 0, g: 0, b: 0, a: 0}
-    - _SpecColor: {r: 0.41911763, g: 0.9278905, b: 1, a: 1}
+    - _Color: {r: 0.72794116, g: 0.81960785, b: 1, a: 1}
+    - _LightDir: {r: 0, g: 0.65, b: 0, a: 0}
+    - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}

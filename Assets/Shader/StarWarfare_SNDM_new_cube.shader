@@ -11,6 +11,7 @@ Shader "StarWarfare/SNDM_new_cube" {
 		_useCustomColor("Use Custom Color (bool)", Range(0,1)) = 0
 		_Cube("Reflection Cubemap", CUBE) = "" {}
 		_CubeColor("Reflection Color", Color) = (0,0,0,1)
+		_paintMask("Paint Mask (A)", 2D) = "white" {}
 	}
 
 		SubShader{
@@ -25,6 +26,7 @@ Shader "StarWarfare/SNDM_new_cube" {
 			sampler2D _RGBA;
 			sampler2D _lightTex;
 			sampler2D _normalmap;
+			sampler2D _paintMask;
 
 			fixed4 _specColor;
 			fixed  _lightRate;
@@ -38,6 +40,7 @@ Shader "StarWarfare/SNDM_new_cube" {
 			struct Input {
 				float2 uv_RGBA;
 				float3 worldRefl;
+				float3 viewDir;
 				INTERNAL_DATA
 			};
 
@@ -45,20 +48,21 @@ Shader "StarWarfare/SNDM_new_cube" {
 				fixed4 baseTex = tex2D(_RGBA, IN.uv_RGBA);
 				fixed4 lightTex = tex2D(_lightTex, IN.uv_RGBA);
 				fixed4 normTex = tex2D(_normalmap, IN.uv_RGBA);
+				fixed  maskTex = tex2D(_paintMask, IN.uv_RGBA).a;
 
 				fixed4 lightAdd = lightTex * _lightRate;
 
-				fixed mask = normTex.a * _useCustomColor;
+				fixed mask = maskTex * _useCustomColor;
 				fixed4 combined = lightAdd + (baseTex * (1.0 - mask)) + (_paintColor * mask);
 
-				fixed4 refl = texCUBE(_Cube, IN.worldRefl);
-				fixed3 reflContrib = (refl.rgb * lightTex.a) * _CubeColor.rgb;
+				o.Normal = UnpackNormal(normTex);
 
-				fixed3 n = UnpackNormal(normTex);
+				float3 worldRefl = WorldReflectionVector(IN, o.Normal);
+				fixed4 refl = texCUBE(_Cube, worldRefl);
 
-				o.Albedo = combined.rgb + reflContrib;
-				o.Normal = n;
-				o.Specular = 1.0;
+				o.Albedo = combined.rgb + (refl.rgb * lightTex.a * _CubeColor.rgb);
+
+				o.Specular = _specColor.rgb * _specMultiple;
 				o.Gloss = _shininess;
 				o.Alpha = 1.0;
 			}
@@ -81,7 +85,7 @@ Shader "StarWarfare/SNDM_new_cube" {
 				return fixed4(c, s.Alpha);
 			}
 			ENDCG
-		}
+	}
 
-			Fallback "StarWarfare/Middle/SNDM_new"
+		Fallback "StarWarfare/Middle/SNDM_new"
 }

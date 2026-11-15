@@ -19,7 +19,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Cube:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 8900000, guid: 0634272d1148c094a8f6ab18537b40f0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RGBA:
@@ -32,6 +32,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _normalmap:
         m_Texture: {fileID: 2800000, guid: defb44fc73c5d4646b1116e0ee7d2b81, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _paintMask:
+        m_Texture: {fileID: 2800000, guid: 6838faf7ca89d9f41a9c5d589777de36, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:

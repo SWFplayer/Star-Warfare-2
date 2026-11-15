@@ -7,8 +7,8 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: L4_sky
-  m_Shader: {fileID: 104, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords:
+  m_Shader: {fileID: 4800000, guid: 1b24bab70e0c0804f9a1dc229b869efd, type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -18,33 +18,33 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-      _BackTex:
+    - _BackTex:
         m_Texture: {fileID: 2800000, guid: 48ce045e6dd904d4f867ca6f07dbd429, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-      _DownTex:
+    - _DownTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-      _FrontTex:
+    - _FrontTex:
         m_Texture: {fileID: 2800000, guid: d5ece01f82619c14fa5a631715202c93, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-      _LeftTex:
+    - _LeftTex:
         m_Texture: {fileID: 2800000, guid: f6e70c61f27d5c64cb44fb57acf59fd3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-      _RightTex:
+    - _RightTex:
         m_Texture: {fileID: 2800000, guid: 4ac5c7513eedb0d4aa75718ef0c99d64, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-      _UpTex:
+    - _UpTex:
         m_Texture: {fileID: 2800000, guid: f9af0854301cc2549a2103c10ae4adeb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-      _Exposure: 1
-      _Rotation: 0
+    - _Exposure: 1
+    - _Rotation: 0
     m_Colors:
-      _Color: {r: 1, g: 1, b: 1, a: 1}
-      _Tint: {r: 0.6102941, g: 0.5620771, b: 0.5250324, a: 0.5019608}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 0.6102941, g: 0.5620771, b: 0.5250324, a: 0.5019608}

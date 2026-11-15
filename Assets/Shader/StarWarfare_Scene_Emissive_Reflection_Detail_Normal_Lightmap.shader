@@ -30,11 +30,13 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 		 Pass {
 		  Name "CONTENTBASE"
 		  Tags { "LIGHTMODE" = "Always" "SHADOWSUPPORT" = "true" "RenderType" = "Opaque" }
+		  Fog { Mode Off }        
 
 		  CGPROGRAM
 		  #pragma vertex vert
 		  #pragma fragment frag
 		  #pragma multi_compile __ LIGHTMAP_ON
+		  #pragma multi_compile_fog      
 		  #include "UnityCG.cginc"
 
 		  sampler2D _MainTex;
@@ -45,6 +47,7 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 		  sampler2D _2DReflect;
 		  sampler2D _Emissive;
 		  sampler2D _ReflectionAlpha;
+
 		  float _Shininess;
 		  float _LightMap;
 		  float4 _Color;
@@ -71,6 +74,7 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 			  float2 uv0 : TEXCOORD0;
 			  float2 uv1 : TEXCOORD1;
 			  float2 uvReflect : TEXCOORD3;
+			  UNITY_FOG_COORDS(4)      
 		  };
 
 		  v2f vert(appdata v) {
@@ -88,6 +92,7 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 			  o.uv1 = 0;
 			  #endif
 
+			  UNITY_TRANSFER_FOG(o, o.pos);     
 			  return o;
 		  }
 
@@ -132,7 +137,9 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 			  col = diff + spec + emissive;
 		  #endif
 
-		  return fixed4(col, 0.0);
+			  float4 finalColor = fixed4(col, 0.0);
+			  UNITY_APPLY_FOG(i.fogCoord, finalColor);     
+			  return finalColor;
 	  }
 	  ENDCG
 	 }

@@ -1305,7 +1305,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1730242686860875}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.65574646, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4726790013014859}
@@ -1726,8 +1726,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 676, y: 100.000015, z: 0}
-  m_Center: {x: 338.00003, y: 0, z: 0}
+  m_Size: {x: 676.00006, y: 99.99999, z: 0}
+  m_Center: {x: 338.00003, y: -0.0000038146973, z: 0}
 --- !u!65 &65477046003934300
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2356,15 +2356,15 @@ MonoBehaviour:
     e00: 360
     e01: 0
     e02: 0
-    e03: -0
+    e03: 0
     e10: 0
     e11: 360
     e12: 0
-    e13: -0
+    e13: 0.65574646
     e20: 0
     e21: 0
     e22: 360
-    e23: -0
+    e23: 0
     e30: 0
     e31: 0
     e32: 0
@@ -2391,7 +2391,7 @@ MonoBehaviour:
   mDir: 1
   mInverted: 0
   mScroll: 1
-  mSize: 0.8355567
+  mSize: 0.90266263
 --- !u!114 &114499517081926786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2965,21 +2965,21 @@ MonoBehaviour:
     e00: 360
     e01: 0
     e02: 0
-    e03: -0
+    e03: 0
     e10: 0
     e11: 360
     e12: 0
-    e13: -0
+    e13: 0.65574646
     e20: 0
     e21: 0
     e22: 360
-    e23: -0
+    e23: 0
     e30: 0
     e31: 0
     e32: 0
     e33: 1
   mAlpha: 1
-  mClipping: 0
+  mClipping: 3
   mClipRange: {x: 499.92273, y: -10.530518, z: 2048, w: 445}
   mClipSoftness: {x: 40, y: 10}
   mDepth: 0

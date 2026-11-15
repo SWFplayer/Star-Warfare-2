@@ -32,6 +32,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Shadow"
 			{
 				Name "CONTENTBASE"
 				Tags { "LIGHTMODE" = "Always" "SHADOWSUPPORT" = "true" "RenderType" = "Opaque" }
+				Fog { Mode Off }        
 
 				CGPROGRAM
 				#pragma vertex vert
@@ -42,6 +43,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Shadow"
 			#pragma multi_compile DIRLIGHTMAP_OFF DIRLIGHTMAP_ON
 			#pragma multi_compile SHADOWS_OFF SHADOWS_SCREEN SHADOWS_NATIVE
 			#pragma multi_compile VERTEXLIGHT_OFF VERTEXLIGHT_ON
+			#pragma multi_compile_fog      
 
 			#include "UnityCG.cginc"
 
@@ -85,6 +87,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Shadow"
 				float2 uvLM        : TEXCOORD4;
 				float2 uvMask      : TEXCOORD6;
 				float4 shadowCoord : TEXCOORD1;
+				UNITY_FOG_COORDS(7)      
 			};
 
 			v2f vert(appdata v)
@@ -102,6 +105,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Shadow"
 
 				o.shadowCoord = mul(_LocalToShadowMatrix, v.vertex);
 
+				UNITY_TRANSFER_FOG(o, o.pos);     
 				return o;
 			}
 
@@ -119,7 +123,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Shadow"
 				float  specA = tex2D(_SpecTex, i.uv).x;
 
 				float3 diffB = tex2D(_MainTexB, i.uvB).xyz;
-				float4 specTexB = tex2D(_SpecTexB, i.uv);       
+				float4 specTexB = tex2D(_SpecTexB, i.uv);
 
 				float3 shadow3 = float3(_Attenuation * 2.0, _Attenuation * 2.0, _Attenuation * 2.0);
 
@@ -150,7 +154,7 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Shadow"
 					float3 finalA = resultA * (1.0 - shadowW) + _ShadowColor.xyz * shadowW;
 
 					float3 resultB;
-					
+
 
 					#ifdef LIGHTMAP_ON
 						float3 shadowLM_B = min((2.0 * UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uvLM).xyz) * _LightMap, shadow3 * 0.8);
@@ -167,7 +171,9 @@ Shader "StarWarfare/Scene/Blend_NoReflection_Detail_Normal_Lightmap_Shadow"
 					float mask = tex2D(_MaskMap, i.uvMask).w;
 					float3 outColor = lerp(resultB, finalA, mask);
 
-					return float4(outColor, 0.0);
+					float4 finalColor = float4(outColor, 0.0);
+					UNITY_APPLY_FOG(i.fogCoord, finalColor);     
+					return finalColor;
 				}
 				ENDCG
 			}

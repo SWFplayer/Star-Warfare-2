@@ -115,7 +115,11 @@ public class UIRadar : GameUI
 
 	private PointScript[] DominationPoints = new PointScript[3];
 
-	private void Awake()
+    private bool mBombPositionSet = false;
+
+    private bool mRebirthPositionSet = false;
+
+    private void Awake()
 	{
 		if (!m_IsForPauseMenu)
 		{
@@ -405,114 +409,150 @@ public class UIRadar : GameUI
 			}
 			if (IsForRebirth)
 			{
-				respawnPointsKeyList = new List<string>();
-				Player localPlayer = GameApp.GetInstance().GetGameWorld().GetLocalPlayer();
-				if (!bRebirthInit)
-				{
-					rebirthAnimaStartTimer = 0f;
-					rebirthTimer = 1f;
-					bRebirthInit = true;
-					GameObject[] array = GameObject.FindGameObjectsWithTag(TagName.RESPAWN);
-					GameObject[] array2 = array;
-					foreach (GameObject gameObject in array2)
-					{
-						if (gameObject.name.StartsWith(ObjectNamePrefix.PLAYER_SPAWN_POINT))
-						{
-							respawnPoints.Add(gameObject);
-						}
-					}
-				}
-				if (localPlayer.State != Player.WAIT_VS_REBIRTH_STATE)
-				{
-					rebirthAnimaStartTimer = 0f;
-					rebirthTimer = 0f;
-					bRebirthInit = false;
-					((HUDOnline)HUDBase.instance).HideRebirthPage();
-					return;
-				}
-				for (int j = 0; j < respawnPoints.Count; j++)
-				{
-					string text3 = "RespawnPoint" + j;
-					m_UIMiniMap.ActivateSpriteIfNot(text3, "RespawnPoint");
-					MoveSpriteTo(text3, respawnPoints[j].transform.position, false);
-					list.Add(text3);
-					respawnPointsKeyList.Add(text3);
-				}
-				mRebirthMithril.text = StateRebirth.GetCurrentRebirthPrice().ToString();
-				if (localPlayer.GetUserState().GetMithril() < StateRebirth.GetCurrentRebirthPrice())
-				{
-					RebirthButton.SetActive(false);
-					UnabledButton.SetActive(true);
-				}
-				else
-				{
-					RebirthButton.SetActive(true);
-					UnabledButton.SetActive(false);
-				}
-				Timer timer = localPlayer.GetRebirthTimer();
-				float num = 1f;
-				float timeSpan = timer.GetTimeSpan();
-				if (timeSpan >= rebirthTimer)
-				{
-					rebirthAnimaStartTimer = timeSpan;
-					rebirthTimer = timeSpan + 1f;
-				}
-				else
-				{
-					int num2 = (int)(6f - timeSpan);
-					if (m_Number != null)
-					{
-						if (GameApp.GetInstance().GetGameMode().IsVSMode())
-						{
-							m_Number.text = localPlayer.GetVSRebirthRemainingTime().ToString();
-						}
-						else
-						{
-							m_Number.text = num2.ToString();
-						}
-					}
-					num = 1f + (timeSpan - rebirthAnimaStartTimer);
-					m_Number.gameObject.SetActive(true);
-					m_Number.transform.localScale = new Vector3(mBaseScale.x * num, mBaseScale.y * num, 1f);
-					m_Number.color = new Color(mBaseColor.r, mBaseColor.g, mBaseColor.b, mBaseColor.a + 1f - num);
-				}
-				if (!mPreCalcFinish)
-				{
-					mPreCalcZ = UICamera.currentCamera.WorldToScreenPoint(RebirthButton.transform.position).z;
-					mPreCalcFinish = true;
-				}
-				Vector2 vector = UICamera.lastTouchPosition - new Vector2(Screen.width / 2, Screen.height / 2);
-				if (-256f < vector.x && vector.x < 256f && -256f < vector.y && vector.y < 256f)
-				{
-					vector.x = Mathf.Clamp(vector.x, -256f, 256f);
-					vector.y = Mathf.Clamp(vector.y, -256f, 256f);
-					Vector3 vector2 = UICamera.currentCamera.ScreenToWorldPoint(new Vector3(UICamera.lastTouchPosition.x, UICamera.lastTouchPosition.y, mPreCalcZ));
-					string text4 = string.Empty;
-					float num3 = float.MaxValue;
-					for (int k = 0; k < respawnPointsKeyList.Count; k++)
-					{
-						if (m_UIMiniMap.GetSpriteWorldPosition(respawnPointsKeyList[k]) != null)
-						{
-							float sqrMagnitude = (m_UIMiniMap.GetSpriteWorldPosition(respawnPointsKeyList[k]).position - vector2).sqrMagnitude;
-							if (sqrMagnitude < num3)
-							{
-								num3 = sqrMagnitude;
-								text4 = respawnPointsKeyList[k];
-							}
-						}
-					}
-					if (text4 != string.Empty)
-					{
-						vector2 = m_UIMiniMap.GetSpriteWorldPosition(text4).position;
-						RebirthSelect.transform.position = vector2;
-					}
-				}
-				if (Input.GetButtonUp("Bomb"))
-				{
-					RebirthButton.SendMessage("OnClick", SendMessageOptions.DontRequireReceiver);
-				}
-			}
-			if (IsForPVP)
+                this.respawnPointsKeyList = new List<string>();
+                Player localPlayer = GameApp.GetInstance().GetGameWorld().GetLocalPlayer();
+                if (!this.bRebirthInit)
+                {
+                    this.rebirthAnimaStartTimer = 0f;
+                    this.rebirthTimer = 1f;
+                    this.bRebirthInit = true;
+                    GameObject[] array = GameObject.FindGameObjectsWithTag(TagName.RESPAWN);
+                    GameObject[] array2 = array;
+                    foreach (GameObject gameObject in array2)
+                    {
+                        if (gameObject.name.StartsWith(ObjectNamePrefix.PLAYER_SPAWN_POINT))
+                        {
+                            this.respawnPoints.Add(gameObject);
+                        }
+                    }
+                }
+                if (localPlayer.State != Player.WAIT_VS_REBIRTH_STATE)
+                {
+                    this.rebirthAnimaStartTimer = 0f;
+                    this.rebirthTimer = 0f;
+                    this.bRebirthInit = false;
+                    ((HUDOnline)HUDBase.instance).HideRebirthPage();
+                    return;
+                }
+                for (int j = 0; j < this.respawnPoints.Count; j++)
+                {
+                    string text3 = "RespawnPoint" + j;
+                    this.m_UIMiniMap.ActivateSpriteIfNot(text3, "RespawnPoint");
+                    this.MoveSpriteTo(text3, this.respawnPoints[j].transform.position, false);
+                    list.Add(text3);
+                    this.respawnPointsKeyList.Add(text3);
+                }
+                this.mRebirthMithril.text = StateRebirth.GetCurrentRebirthPrice().ToString();
+                if (localPlayer.GetUserState().GetMithril() < StateRebirth.GetCurrentRebirthPrice())
+                {
+                    this.RebirthButton.SetActive(false);
+                    this.UnabledButton.SetActive(true);
+                }
+                else
+                {
+                    this.RebirthButton.SetActive(true);
+                    this.UnabledButton.SetActive(false);
+                }
+                Timer timer = localPlayer.GetRebirthTimer();
+                float timeSpan = timer.GetTimeSpan();
+                if (timeSpan >= this.rebirthTimer)
+                {
+                    this.rebirthAnimaStartTimer = timeSpan;
+                    this.rebirthTimer = timeSpan + 1f;
+                }
+                else
+                {
+                    int num = (int)(6f - timeSpan);
+                    if (this.m_Number != null)
+                    {
+                        if (GameApp.GetInstance().GetGameMode().IsVSMode())
+                        {
+                            this.m_Number.text = localPlayer.GetVSRebirthRemainingTime().ToString();
+                        }
+                        else
+                        {
+                            this.m_Number.text = num.ToString();
+                        }
+                    }
+                    float num2 = 1f + (timeSpan - this.rebirthAnimaStartTimer);
+                    this.m_Number.gameObject.SetActive(true);
+                    this.m_Number.transform.localScale = new Vector3(this.mBaseScale.x * num2, this.mBaseScale.y * num2, 1f);
+                    this.m_Number.color = new Color(this.mBaseColor.r, this.mBaseColor.g, this.mBaseColor.b, this.mBaseColor.a + 1f - num2);
+                }
+                if (!this.mPreCalcFinish)
+                {
+                    this.mPreCalcZ = UICamera.currentCamera.WorldToScreenPoint(this.RebirthButton.transform.position).z;
+                    this.mPreCalcFinish = true;
+                }
+
+                Vector2 inputPos = Vector2.zero;
+                bool hasInput = false;
+
+                    #if UNITY_STANDALONE || UNITY_EDITOR
+                        inputPos = Input.mousePosition;
+                        hasInput = true;
+                    #elif UNITY_ANDROID || UNITY_IOS
+                        if (Input.touchCount > 0)
+                        {
+                            inputPos = Input.GetTouch(0).position;
+                            hasInput = true;
+                        }
+                    #endif
+
+                if (hasInput)
+                {
+                    Vector2 vector = inputPos - new Vector2(Screen.width / 2f, Screen.height / 2f);
+
+                    if (-256f < vector.x && vector.x < 256f && -256f < vector.y && vector.y < 256f)
+                    {
+                        if (!this.mRebirthPositionSet)
+                        {
+                            vector.x = Mathf.Clamp(vector.x, -256f, 256f);
+                            vector.y = Mathf.Clamp(vector.y, -256f, 256f);
+
+                            Vector3 vector2 = UICamera.currentCamera.ScreenToWorldPoint(new Vector3(inputPos.x, inputPos.y, this.mPreCalcZ));
+                            string text4 = string.Empty;
+                            float num3 = float.MaxValue;
+
+                            for (int k = 0; k < this.respawnPointsKeyList.Count; k++)
+                            {
+                                if (this.m_UIMiniMap.GetSpriteWorldPosition(this.respawnPointsKeyList[k]) != null)
+                                {
+                                    float sqrMagnitude = (this.m_UIMiniMap.GetSpriteWorldPosition(this.respawnPointsKeyList[k]).position - vector2).sqrMagnitude;
+                                    if (sqrMagnitude < num3)
+                                    {
+                                        num3 = sqrMagnitude;
+                                        text4 = this.respawnPointsKeyList[k];
+                                    }
+                                }
+                            }
+
+                            if (text4 != string.Empty)
+                            {
+                                vector2 = this.m_UIMiniMap.GetSpriteWorldPosition(text4).position;
+                                this.RebirthSelect.transform.position = vector2;
+                            }
+
+                            #if UNITY_STANDALONE || UNITY_EDITOR
+                                if (Input.GetMouseButtonUp(0))
+                                {
+                                    this.mRebirthPositionSet = true;
+                                }
+                            #elif UNITY_ANDROID || UNITY_IOS
+                                if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                                {
+                                    this.mRebirthPositionSet = true;
+                                }
+                            #endif
+                        }
+                    }
+                }
+                if (Input.GetButtonUp("Bomb"))
+                {
+                    this.RebirthButton.SendMessage("OnClick", SendMessageOptions.DontRequireReceiver);
+                }
+            }
+            if (IsForPVP)
 			{
 				List<RemotePlayer> remotePlayers2 = GameApp.GetInstance().GetGameWorld().GetRemotePlayers();
 				foreach (RemotePlayer item4 in remotePlayers2)
@@ -666,30 +706,67 @@ public class UIRadar : GameUI
 			{
 				mIsRefreshEnemy = true;
 			}
-			if (IsForBombStreak)
-			{
-				if (BombIcon.activeSelf)
-				{
-					if (!mPreCalcFinish)
-					{
-						mPreCalcZ = UICamera.currentCamera.WorldToScreenPoint(BombButton.transform.position).z;
-						mPreCalcFinish = true;
-					}
-					Vector2 vector3 = UICamera.lastTouchPosition - new Vector2(Screen.width / 2, Screen.height / 2);
-					if (-256f < vector3.x && vector3.x < 256f && -256f < vector3.y && vector3.y < 256f)
-					{
-						vector3.x = Mathf.Clamp(vector3.x, -256f, 256f);
-						vector3.y = Mathf.Clamp(vector3.y, -256f, 256f);
-						Vector3 position = new Vector3(UICamera.lastTouchPosition.x, UICamera.lastTouchPosition.y, mPreCalcZ);
-						BombIcon.transform.position = UICamera.currentCamera.ScreenToWorldPoint(position);
-					}
-				}
-				if (Input.GetButtonUp("Bomb"))
-				{
-					Bomb();
-				}
-			}
-		}
+            if (IsForBombStreak)
+            {
+                if (BombIcon.activeSelf)
+                {
+                    if (!mPreCalcFinish)
+                    {
+                        mPreCalcZ = UICamera.currentCamera.WorldToScreenPoint(BombButton.transform.position).z;
+                        mPreCalcFinish = true;
+                    }
+
+                    Vector2 inputPosition = Vector2.zero;
+                    bool isInputValid = false;
+
+                    #if UNITY_STANDALONE || UNITY_EDITOR
+                        inputPosition = Input.mousePosition;
+                        isInputValid = true;
+                    #elif UNITY_ANDROID || UNITY_IOS
+                        if (Input.touchCount > 0)
+                        {
+                            inputPosition = Input.GetTouch(0).position;
+                            isInputValid = true;
+                        }
+                    #endif
+
+                    if (isInputValid)
+                    {
+                        Vector2 offset = inputPosition - new Vector2(Screen.width / 2f, Screen.height / 2f);
+
+                        bool insideRadar = (-256f < offset.x && offset.x < 256f && -256f < offset.y && offset.y < 256f);
+
+                        if (!mBombPositionSet)
+                        {
+                            if (insideRadar)
+                            {
+                                Vector3 worldPos = UICamera.currentCamera.ScreenToWorldPoint(new Vector3(inputPosition.x, inputPosition.y, mPreCalcZ));
+                                BombIcon.transform.position = worldPos;
+
+                                #if UNITY_STANDALONE || UNITY_EDITOR
+                                    if (Input.GetMouseButtonDown(0))
+                                    {
+                                        mBombPositionSet = true;
+                                    }
+                                #elif UNITY_ANDROID || UNITY_IOS
+                                    if (Input.GetTouch(0).phase == TouchPhase.Began)
+                                    {
+                                        mBombPositionSet = true;
+                                    }
+                                #endif
+                            }
+                        }
+                        
+                    }
+                }
+
+                if (Input.GetButtonUp("Bomb"))
+                {
+                    Bomb();
+                }
+                
+            }
+        }
 		SpecialForKOH_Domination(list);
 		m_UIMiniMap.RemoveSpriteWithout(list);
 		list.Clear();
@@ -771,12 +848,14 @@ public class UIRadar : GameUI
 			{
 				BombIcon.SetActive(true);
 				BombButton.SetActive(true);
-			}
+                mBombPositionSet = false;
+            }
 			if (IsForRebirth)
 			{
 				RebirthSelect.SetActive(true);
 				SetRebirthPositionIndex();
-			}
+                mRebirthPositionSet = false;
+            }
 		}
 		else if (go == BombButton)
 		{

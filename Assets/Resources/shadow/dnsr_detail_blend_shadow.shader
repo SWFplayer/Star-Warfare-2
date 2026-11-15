@@ -38,6 +38,7 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap_Shadow" {
 				#pragma fragment frag
 				#pragma multi_compile_fwdbase
 				#pragma fragmentoption ARB_precision_hint_fastest
+				#pragma multi_compile_fog      
 				#include "UnityCG.cginc"
 				#include "Lighting.cginc"
 				#include "AutoLight.cginc"
@@ -51,7 +52,7 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap_Shadow" {
 				sampler2D _ShadowMap;
 
 				float4 _Color;
-				
+
 				float4 _ShadowColor;
 				float _SpecularPower;
 				float _GlossPower;
@@ -65,14 +66,15 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap_Shadow" {
 				float _DetailNormalMultiB;
 				float3 _LightDir;
 				float3 _LightDirB;
-				float4x4 _LocalToShadowMatrix;      
+				float4x4 _LocalToShadowMatrix;
 
 				struct v2f {
 					float4 pos : SV_POSITION;
-					float4 uv : TEXCOORD0;       
-					float4 screenPoint : TEXCOORD1;    
+					float4 uv : TEXCOORD0;
+					float4 screenPoint : TEXCOORD1;
 					float2 lmap : TEXCOORD2;
-					float2 maskUV : TEXCOORD3;    
+					float2 maskUV : TEXCOORD3;
+					UNITY_FOG_COORDS(4)      
 				};
 
 				v2f vert(appdata_full v) {
@@ -90,6 +92,7 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap_Shadow" {
 
 						o.maskUV = v.color.xy;
 
+						UNITY_TRANSFER_FOG(o, o.pos);     
 						return o;
 					}
 
@@ -146,7 +149,10 @@ Shader "StarWarfare/Scene/Blend_Detail_Normal_Lightmap_Shadow" {
 
 						finalCol = (finalCol * (1.0 - shadowWeight)) + (_ShadowColor.rgb * shadowWeight);
 
-						return float4(finalCol, 0.0);
+						float4 finalColor = float4(finalCol, 0.0);
+						UNITY_APPLY_FOG(i.fogCoord, finalColor);     
+
+						return finalColor;
 					}
 					ENDCG
 				}

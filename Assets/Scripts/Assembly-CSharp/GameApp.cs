@@ -154,7 +154,7 @@ public class GameApp
 			instance.PreviousOrientation = DeviceOrientation.Portrait;
 			instance.LogoFirstPop = true;
 			instance.AdsPoped = false;
-			Application.targetFrameRate = 60;
+			Application.targetFrameRate = 240;
 			instance.userState.mGraphicQuality.ApplayQuality();
 			if (Application.platform == RuntimePlatform.Android && AndroidPluginScript.CheckDevice() == 1)
 			{

@@ -1,5 +1,3 @@
-
-
 Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 	Properties{
 	 _Shininess("Shininess for Light Map", Range(0.03,1)) = 1
@@ -32,11 +30,13 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 		 Pass {
 		  Name "CONTENTBASE"
 		  Tags { "LIGHTMODE" = "Always" "SHADOWSUPPORT" = "true" "RenderType" = "Opaque" }
+		  Fog { Mode Off }        
 
 		  CGPROGRAM
 		  #pragma vertex vert
 		  #pragma fragment frag
 		  #pragma multi_compile __ LIGHTMAP_ON
+		  #pragma multi_compile_fog      
 		  #include "UnityCG.cginc"
 
 		  sampler2D _MainTex;
@@ -47,8 +47,6 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 		  sampler2D _2DReflect;
 		  sampler2D _Emissive;
 		  sampler2D _ReflectionAlpha;
-		  // sampler2D unity_Lightmap;
-		  // float4 unity_LightmapST;
 
 		  float _Shininess;
 		  float _LightMap;
@@ -76,6 +74,7 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 			  float2 uv0 : TEXCOORD0;
 			  float2 uv1 : TEXCOORD1;
 			  float2 uvReflect : TEXCOORD3;
+			  UNITY_FOG_COORDS(4)      
 		  };
 
 		  v2f vert(appdata v) {
@@ -93,6 +92,7 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 			  o.uv1 = 0;
 			  #endif
 
+			  UNITY_TRANSFER_FOG(o, o.pos);     
 			  return o;
 		  }
 
@@ -112,7 +112,7 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 			  float3 col = 0;
 
 			  #if LIGHTMAP_ON
-			  
+
 			  float4 lightMap = float4(2.0 * UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uv1).xyz, 0.0);
 			  float3 lm = lightMap.xyz * _LightMap;
 			  float3 shadow = min(lm, (_Attenuation * 2.0) * 0.8);
@@ -124,7 +124,7 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 
 			  col = diff + spec + emissive;
 		  #else
-			  
+
 			  float3 shadow = _Attenuation * 2.0;
 			  float3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 			  float NdotL = max(0.0, dot(normal, _LightDir));
@@ -137,7 +137,9 @@ Shader "StarWarfare/Scene/Emissive_Reflection_Detail_Normal_Lightmap" {
 			  col = diff + spec + emissive;
 		  #endif
 
-		  return fixed4(col, 0.0);
+			  float4 finalColor = fixed4(col, 0.0);
+			  UNITY_APPLY_FOG(i.fogCoord, finalColor);     
+			  return finalColor;
 	  }
 	  ENDCG
 	 }

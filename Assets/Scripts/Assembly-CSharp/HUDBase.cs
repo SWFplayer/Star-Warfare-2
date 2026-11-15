@@ -115,7 +115,11 @@ public class HUDBase : GameUI
 			}
 		}
 		UIAtlasManager.UpdateMatInGame();
-	}
+        if (Application.platform != RuntimePlatform.IPhonePlayer && Application.platform != RuntimePlatform.Android)
+        {
+            m_JoystickManager.gameObject.SetActive(false);
+        }
+    }
 
 	public void LoadHUD(HUDType type)
 	{

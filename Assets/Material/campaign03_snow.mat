@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: campaign03_snow
   m_Shader: {fileID: 4800000, guid: 9de811c799fa31d47a922a2a2e302917, type: 3}
-  m_ShaderKeywords:
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -18,37 +18,37 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-      _2DReflect:
+    - _2DReflect:
         m_Texture: {fileID: 2800000, guid: cc8529eb980a0ad4b878a78c19e46757, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-      _Emissive:
+    - _Emissive:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-      _MainTex:
+    - _MainTex:
         m_Texture: {fileID: 2800000, guid: 385dc2e39be5dac4eacbdf6426044670, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-      _ReflectionAlpha:
+    - _ReflectionAlpha:
         m_Texture: {fileID: 2800000, guid: 87841d2aa70589b4caaaee46be3c2b59, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-      _SpecTex:
+    - _SpecTex:
         m_Texture: {fileID: 2800000, guid: b5cd2d45320bc0643938708812259b97, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-      _Attenuation: 1
-      _GlossPower: 0
-      _LightMap: 0.4
-      _LightPower: 1.29
-      _Param1: 0.33
-      _Param2: 0.06
-      _ReflectionPower: 0.69
-      _Shininess: 1
-      _SpecularPower: 1.38
+    - _Attenuation: 1
+    - _GlossPower: 0
+    - _LightMap: 0.5
+    - _LightPower: 1.27
+    - _Param1: 0.33
+    - _Param2: 0.06
+    - _ReflectionPower: 0.69
+    - _Shininess: 1
+    - _SpecularPower: 1.45
     m_Colors:
-      _Color: {r: 0.7058823, g: 0.90196085, b: 1, a: 1}
-      _LightDir: {r: 0, g: 0, b: 0, a: 0}
-      _SpecColor: {r: 0.50735295, g: 0.8484163, b: 1, a: 1}
+    - _Color: {r: 0.58823526, g: 0.8627452, b: 1, a: 1}
+    - _LightDir: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 0.5294118, g: 0.8552036, b: 1, a: 1}

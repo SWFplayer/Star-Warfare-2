@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: campaign05_ground
   m_Shader: {fileID: 4800000, guid: 3b334be6f81033e4db183a65d12e50dc, type: 3}
-  m_ShaderKeywords:
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -18,24 +18,24 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-      _Emissive:
+    - _Emissive:
         m_Texture: {fileID: 2800000, guid: d1f5767b581006b479fb3e441c837120, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-      _MainTex:
+    - _MainTex:
         m_Texture: {fileID: 2800000, guid: 0ab272a3b2d10d54da3b65ec594eace6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-      _SpecTex:
+    - _SpecTex:
         m_Texture: {fileID: 2800000, guid: d8014bad9b8db3a49a32e85888508557, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-      _Attenuation: 1
-      _LightMap: 0.48
-      _LightPower: 1.4
-      _Shininess: 1
-      _SpecularPower: 2.27
+    - _Attenuation: 1
+    - _LightMap: 0.8
+    - _LightPower: 1.4
+    - _Shininess: 1
+    - _SpecularPower: 2.27
     m_Colors:
-      _Color: {r: 0.7378144, g: 0.659494, b: 0.78676474, a: 1}
-      _SpecColor: {r: 0.99607843, g: 0.8039216, b: 0.5058824, a: 1}
+    - _Color: {r: 0.7378144, g: 0.659494, b: 0.78676474, a: 1}
+    - _SpecColor: {r: 0.99607843, g: 0.8039216, b: 0.5058824, a: 1}

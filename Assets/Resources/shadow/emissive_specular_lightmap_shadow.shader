@@ -25,6 +25,7 @@ Shader "StarWarfare/Scene/Emissive_Specular_Lightmap_Shadow"
 			{
 				Name "CONTENTBASE"
 				Tags { "LIGHTMODE" = "Always" "SHADOWSUPPORT" = "true" "RenderType" = "Opaque" }
+				Fog { Mode Off }        
 
 				CGPROGRAM
 				#pragma vertex vert
@@ -35,6 +36,7 @@ Shader "StarWarfare/Scene/Emissive_Specular_Lightmap_Shadow"
 			#pragma multi_compile DIRLIGHTMAP_OFF DIRLIGHTMAP_ON
 			#pragma multi_compile SHADOWS_OFF SHADOWS_SCREEN SHADOWS_NATIVE
 			#pragma multi_compile VERTEXLIGHT_OFF VERTEXLIGHT_ON
+			#pragma multi_compile_fog      
 
 			#include "UnityCG.cginc"
 
@@ -67,6 +69,7 @@ Shader "StarWarfare/Scene/Emissive_Specular_Lightmap_Shadow"
 				float2 uv          : TEXCOORD0;
 				float2 uvLM        : TEXCOORD1;
 				float4 shadowCoord : TEXCOORD2;
+				UNITY_FOG_COORDS(3)      
 			};
 
 			v2f vert(appdata v)
@@ -80,6 +83,7 @@ Shader "StarWarfare/Scene/Emissive_Specular_Lightmap_Shadow"
 
 				o.shadowCoord = mul(_LocalToShadowMatrix, v.vertex);
 
+				UNITY_TRANSFER_FOG(o, o.pos);     
 				return o;
 			}
 
@@ -114,7 +118,7 @@ Shader "StarWarfare/Scene/Emissive_Specular_Lightmap_Shadow"
 				resultColor = diff + spec;
 			#else
 				float3 shadow3 = float3(_Attenuation * 2.0, _Attenuation * 2.0, _Attenuation * 2.0);
-				float3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;  
+				float3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 				float3 mixed = lerp(shadow3 * _LightPower, ambient + 1.0, ambient);
 
 				float3 diff = diffTex * mixed * _Color.xyz;
@@ -127,7 +131,10 @@ Shader "StarWarfare/Scene/Emissive_Specular_Lightmap_Shadow"
 
 				outColor += emissiveTex;
 
-				return float4(outColor, 0.0);
+				float4 finalColor = float4(outColor, 0.0);
+				UNITY_APPLY_FOG(i.fogCoord, finalColor);     
+
+				return finalColor;
 			}
 			ENDCG
 		}

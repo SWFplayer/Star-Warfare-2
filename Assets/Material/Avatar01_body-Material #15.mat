@@ -30,6 +30,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: d56c148111c56a64aa4e39c23e57d9fe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _paintMask:
+        m_Texture: {fileID: 2800000, guid: c6c042b861f7b56488a64d3a88b06802, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _specTex_Gloss:
         m_Texture: {fileID: 2800000, guid: 3105e88a7e49e02478668d929fb0c810, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -44,7 +48,7 @@ Material:
     - _lightRate: 0.4552239
     - _shininess: 0.984127
     - _specMultiple: 2
-    - _useCustomColor: 0
+    - _useCustomColor: 1
     m_Colors:
     - _Color: {r: 0.61764705, g: 0.61764705, b: 0.61764705, a: 1}
     - _CubeColor: {r: 0, g: 0, b: 0, a: 1}
@@ -52,5 +56,5 @@ Material:
     - _SpecColor: {r: 0, g: 0.2965517, b: 1, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
     - _maincolor: {r: 1, g: 1, b: 1, a: 1}
-    - _paintColor: {r: 0.99607843, g: 0.5176471, b: 0.12941177, a: 1}
+    - _paintColor: {r: 0.12941176, g: 0.24297489, b: 0.99607843, a: 1}
     - _specColor: {r: 0, g: 0.83448267, b: 1, a: 1}

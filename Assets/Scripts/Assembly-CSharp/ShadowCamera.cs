@@ -149,7 +149,13 @@ public class ShadowCamera : MonoBehaviour
                 DrawRenderersToCommandBuffer(playerRenderers);
             }
 
-           
+            GameObject[] allVehicle = GameObject.FindGameObjectsWithTag("VehicleHit");
+            foreach (GameObject Vehicle in allVehicle)
+            {
+                Renderer[] VehicleRenderers = Vehicle.GetComponentsInChildren<Renderer>();
+                DrawRenderersToCommandBuffer(VehicleRenderers);
+            }
+
             GameWorld gameWorld = GameApp.GetInstance().GetGameWorld();
             if (gameWorld != null && gameWorld.GetEnemies() != null)
             {
@@ -185,6 +191,11 @@ public class ShadowCamera : MonoBehaviour
             
 
             if (r.gameObject.name.ToLower() == "shandiantiao_sw3" || r.transform.parent.name.ToLower() == "shandiantiao_sw3")
+            {
+                continue;
+            }
+
+            if (r.gameObject.name.ToLower() == "defent(clone)" || r.transform.parent.name.ToLower() == "defent(clone)")
             {
                 continue;
             }

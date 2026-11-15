@@ -11,7 +11,7 @@ Shader "StarWarfare/SNDM_new" {
 		_normalmap("Normalmap", 2D) = "bump" {}
 		_paintColor("Paint Color", Color) = (1,0,0,1)
 		_useCustomColor("Use Custom Color (bool)", Range(0,1)) = 0
-		
+		_paintMask("Paint Mask (R)", 2D) = "white" {}
 		_CubeColor("Reflection Color", Color) = (0,0,0,1)
 	}
 
@@ -27,6 +27,7 @@ Shader "StarWarfare/SNDM_new" {
 			sampler2D _RGBA;
 			sampler2D _lightTex;
 			sampler2D _normalmap;
+			sampler2D _paintMask;
 
 			fixed4 _specColor;
 			fixed  _lightRate;
@@ -47,10 +48,11 @@ Shader "StarWarfare/SNDM_new" {
 				fixed4 baseTex = tex2D(_RGBA, IN.uv_RGBA);
 				fixed4 lightTex = tex2D(_lightTex, IN.uv_RGBA);
 				fixed4 normTex = tex2D(_normalmap, IN.uv_RGBA);
+				fixed  maskTex = tex2D(_paintMask, IN.uv_RGBA).a;
 
 				fixed4 lightAdd = lightTex * _lightRate;
 
-				fixed mask = normTex.a * _useCustomColor;
+				fixed mask = maskTex * _useCustomColor;
 				fixed4 combined = lightAdd + (baseTex * (1.0 - mask)) + (_paintColor * mask);
 
 				fixed4 refl = texCUBE(_Cube, IN.worldRefl);

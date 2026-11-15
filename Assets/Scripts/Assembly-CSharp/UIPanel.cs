@@ -414,11 +414,6 @@ public class UIPanel : MonoBehaviour
         list.Add(this);
         list.Sort(CompareFunc);
 
-        if (Application.isPlaying)
-        {
-            Refresh();
-        }
-
     }
 
     private void OnDisable()
